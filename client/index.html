@@ -1,0 +1,79 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<title>Dashboard-Pr</title>
+
+</head>
+
+<body ng-app="prettyPr" ng-controller="MasterCtrl">
+  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar">
+        <li class="sidebar-main">
+          <a ng-click="toggleSidebar()">
+            Menu
+            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+          </a>
+        </li>
+        <li class="sidebar-title"><span>Dashboard</span></li>
+        <li class="sidebar-list" ng-class="getClass('/integrateurs')">
+          <a href="/integrateurs">Intégrateurs <span class="menu-icon fa fa-github"></span></a>
+        </li>
+        <li class="sidebar-list" ng-class="getClass('/assignations')">
+          <a href="/assignations">Assignations <span class="menu-icon fa fa-github"></span></a>
+        </li>
+
+      </ul>
+      <div class="sidebar-footer">
+        <div class="col-xs-6">
+          <a href="https://github.com/Oupsla/PrettyPR" target="_blank">
+            Github
+          </a>
+        </div>
+        <div class="col-xs-6">
+          <a href="https://github.com/Oupsla/PrettyPR/README.md" target="_blank">
+            A propos
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <div id="content-wrapper">
+      <div class="page-content">
+
+        <!-- Header Bar -->
+        <div class="row header">
+          <div class="col-xs-6">
+
+            <div class="meta">
+              <div id="currentPageTitle" class="page">
+                {{ currentPage() }}
+              </div>
+              <div class="breadcrumb-links">
+                {{ descriptionCurrent() }}
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-xs-6" style="margin-top : 10px">
+            <div> Connection au service Github :  </div> <login-buttons></login-buttons>
+          </div>
+
+        </div>
+        <!-- End Header Bar -->
+
+        <!-- this is where content will be injected -->
+        <div class="md-padding page-content" ui-view=""></div>
+
+      </div><!-- End Page Content -->
+    </div><!-- End Content Wrapper -->
+  </div><!-- End Page Wrapper -->
+</body>
