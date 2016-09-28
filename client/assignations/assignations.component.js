@@ -1,4 +1,4 @@
-angular.module('prettyPr')
+angular.module('dashboardPr')
   .directive('assignations', function() {
   return {
     restrict: 'E',

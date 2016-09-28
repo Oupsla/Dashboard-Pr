@@ -9,7 +9,7 @@
 
 </head>
 
-<body ng-app="prettyPr" ng-controller="MasterCtrl">
+<body ng-app="dashboardPr" ng-controller="MasterCtrl">
   <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
     <!-- Sidebar -->
@@ -21,23 +21,27 @@
             <span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
         </li>
+        <li class="sidebar-title"><span>Projets</span></li>
+        <li class="sidebar-list" ng-class="getClass('/github')">
+          <a href="/github">Github <span class="menu-icon fa fa-github"></span></a>
+        </li>
         <li class="sidebar-title"><span>Dashboard</span></li>
         <li class="sidebar-list" ng-class="getClass('/integrateurs')">
-          <a href="/integrateurs">Intégrateurs <span class="menu-icon fa fa-github"></span></a>
+          <a href="/integrateurs">Intégrateurs <span class="menu-icon fa fa-users"></span></a>
         </li>
         <li class="sidebar-list" ng-class="getClass('/assignations')">
-          <a href="/assignations">Assignations <span class="menu-icon fa fa-github"></span></a>
+          <a href="/assignations">Assignations <span class="menu-icon fa fa-list"></span></a>
         </li>
 
       </ul>
       <div class="sidebar-footer">
         <div class="col-xs-6">
-          <a href="https://github.com/Oupsla/PrettyPR" target="_blank">
+          <a href="https://github.com/Oupsla/Dashboard-Pr" target="_blank">
             Github
           </a>
         </div>
         <div class="col-xs-6">
-          <a href="https://github.com/Oupsla/PrettyPR/README.md" target="_blank">
+          <a href="https://github.com/Oupsla/Dashboard-Pr/README.md" target="_blank">
             A propos
           </a>
         </div>

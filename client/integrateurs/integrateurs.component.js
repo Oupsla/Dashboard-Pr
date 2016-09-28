@@ -1,4 +1,4 @@
-angular.module('prettyPr')
+angular.module('dashboardPr')
   .directive('integrateurs', function() {
   return {
     restrict: 'E',

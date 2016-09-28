@@ -1,4 +1,4 @@
-angular.module('prettyPr', [
+angular.module('dashboardPr', [
   'angular-meteor',
   'ui.router',
   'ngMaterial',

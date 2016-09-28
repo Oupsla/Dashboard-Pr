@@ -1,0 +1,14 @@
+{
+  "uploadOnSave": false,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "172.28.1.238",
+  "target": "/home/ubuntu/Dashboard-Pr",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "keyfile": "/home/m2iagl/delperdange/.ssh/id_rsa.pub",
+  "watch": [],
+  "transport": "scp"
+}

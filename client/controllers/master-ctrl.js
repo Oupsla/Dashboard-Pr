@@ -2,7 +2,7 @@
  * Master Controller
  */
 
-angular.module('prettyPr')
+angular.module('dashboardPr')
     .controller('MasterCtrl', ['$scope', '$location', MasterCtrl]);
 
 function MasterCtrl($scope, $location) {
@@ -18,9 +18,13 @@ function MasterCtrl($scope, $location) {
     }
 
     $scope.descriptionCurrent = function(){
-        switch ($location.path()) {      
+        switch ($location.path()) {
           case "/github":
-            return "Connectez vous à Github pour comparer des Pull Requests";
+            return "Sélectionnez votre projet à gérer";
+          case "/assignations":
+            return "Assigner les nouvelles Pull Requests à vos intégrateurs";
+          case "/integrateurs":
+            return "Gérer vos intégrateurs";
           default:
             return "";
         }
