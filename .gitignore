@@ -3,6 +3,7 @@ logs
 *.log
 npm-debug.log*
 .sync-config.cson
+.remote-sync.json
 
 # Runtime data
 pids

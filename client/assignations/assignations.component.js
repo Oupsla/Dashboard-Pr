@@ -14,6 +14,13 @@ angular.module('dashboardPr')
 
       //######################## Vars #############################
 
+      this.reposelected = Session.get("reposelected");
+
+      this.helpers({
+        showPage: () => {
+          return this.reposelected != null;
+        }
+      });
 
 
       //######################## METHODS #############################

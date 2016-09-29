@@ -32,10 +32,9 @@ angular.module('dashboardPr')
 
       //######################## METHODS #############################
 
-      //######## GET REPOS
       this.getRepo = (refresh = false) => {
 
-        var githubUsername = Meteor.user();
+        var githubUsername = Meteor.user().services.github.username;
 
         if(!githubUsername)
           return;
@@ -59,7 +58,7 @@ angular.module('dashboardPr')
           return;
         }
 
-        Meteor.call('getReposFromUser', githubUsername, accessToken,
+        Meteor.call('getReposFromUser',githubUsername, accessToken,
           function (error, result) {
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
@@ -77,6 +76,19 @@ angular.module('dashboardPr')
               }
         }.bind(this));
       } //END : getRepos
+
+
+
+      this.selectRepo = () => {
+        if(!this.reposelected){
+          bertError("Veuillez sélectionner un repo");
+        } else {
+          Session.set("reposelected",this.reposelected);
+          $location.path("/integrateurs");
+          $scope.$apply();
+        }
+
+      }//END : selectRepo
 
       //Le tracker va s'occuper d'appeler la méthode si la valeur de l'user change
       //Celle-ci change si l'user etait deja connecté auparavant à la fin du chargement
