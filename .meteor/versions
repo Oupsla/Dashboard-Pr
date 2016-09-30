@@ -12,6 +12,7 @@ angular:angular-animate@1.5.3_1
 angular:angular-aria@1.5.3_1
 angular:angular-material@1.0.6
 angular:angular-mocks@1.5.3_1
+angular:angular-sanitize@1.5.3_1
 angularui:angular-ui-bootstrap@0.13.0
 angularui:angular-ui-router@0.2.15
 autoupdate@1.3.11
@@ -117,6 +118,7 @@ reactive-var@1.0.10
 reload@1.1.10
 retry@1.0.8
 routepolicy@1.0.11
+sebhero:angular-material-icons@0.5.0
 service-configuration@1.0.10
 session@1.1.6
 shell-server@0.2.1
@@ -124,6 +126,7 @@ spacebars@1.0.13
 spacebars-compiler@1.0.13
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0
+stevezhu:lodash@4.0.0
 templating@1.2.15
 templating-compiler@1.2.15
 templating-runtime@1.2.15
@@ -136,6 +139,7 @@ tracker@1.1.0
 ui@1.0.12
 underscore@1.0.9
 urigo:static-html-compiler@0.1.8
+uris:angularjs-mddatatable@1.3.0
 url@1.0.10
 webapp@1.3.11
 webapp-hashing@1.0.9

@@ -2,6 +2,7 @@ angular.module('dashboardPr', [
   'angular-meteor',
   'ui.router',
   'ngMaterial',
+  'mdDataTable',
   'ngFileUpload',
   'ui.bootstrap',
   'ngAnimate',

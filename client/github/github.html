@@ -1,10 +1,10 @@
-<h3 class="ng-binding" ng-show="github.showRepos" >Veuillez vous connectez à Github pour sélectionner un projet</h3>
+<h3 class="ng-binding" ng-show="github.showRepos" >Please connect to github first !</h3>
 
 <md-list role="list" ng-hide="github.showRepos" ng-required="true">
-  <h3 class="ng-binding">Sélection du repository : </h3>
+  <h3 class="ng-binding">Select your repository : </h3>
 
   <md-input-container>
-    <label for="input_170">Recherche</label>
+    <label for="input_170">Seach</label>
     <input aria-invalid="false" id="search_input" class="ng-pristine ng-valid md-input ng-touched" ng-model="github.searchRepo" ng-change="github.currentPageRepo = 0">
   </md-input-container>
 
@@ -15,7 +15,7 @@
 
       <md-radio-button value="{{ repo.name }}" name="repoRadio">
         {{ repo.name }}
-      </md-radio-button>      
+      </md-radio-button>
     </md-list-item>
   </md-radio-group>
 
@@ -29,7 +29,7 @@
     </button>
   </div>
 
-  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.selectRepo()">Choisir ce projet</button>
-  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.getRepo(true)">Rafraichir les repos</button>
+  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.selectRepo()">Select this repo</button>
+  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.getRepo(true)">Refresh</button>
 
 </md-list>

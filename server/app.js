@@ -8,14 +8,15 @@ function initGithubApi(tokenGithub){
     debug: true,
     headers: {
         "user-agent": "DashboardPr-App" // GitHub is happy with a unique user agent
-    }
+    },
+    protocol: "https",
+    host: "api.github.com",
+    timeout: 5000
   });
-
-  console.log("Auth github : " + tokenGithub);
 
   github.authenticate({
     type: "token",
-    token: tokenGithub
+    token: ""
   });
 
 
@@ -70,19 +71,16 @@ Meteor.methods({
 
   getIntegrateursFromRepo: function (username, token, repo) {
 
-    console.log(username);
-    console.log(repo);
-    console.log(token);
-
-    //if(!github)
-    initGithubApi(token);
+    if(!github)
+      initGithubApi(token);
 
     var currentPage = 0;
-    var integrateurs = null;
+    var integrateurs = new Array();
+    var collaborateurs = null;
 
     //On va boucler car on peut avoir que 100 repos à la fois
-    var integrateurs = Async.runSync(function(done) {
-      github.repos.getTeams({
+    collaborateurs = Async.runSync(function(done) {
+      github.repos.getCollaborators({
         "user": username,
         "repo": repo,
         "page": currentPage,
@@ -98,15 +96,25 @@ Meteor.methods({
       });
     });
 
-    if(integrateurs.error != null){
-      if(integrateurs.error.message.search("Not Found") != -1)
+    if(collaborateurs.error != null){
+      if(collaborateurs.error.message.search("Not Found") != -1)
         throw new Meteor.Error(400, "User not found");
       else
-        throw new Meteor.Error(400, integrateurs.error.message);
+        throw new Meteor.Error(400, collaborateurs.error.message);
     }
 
+    //We get all collabs, we need to remove no-admin
+    collaborateurs.result.forEach(function (collab) {
 
-    return integrateurs.result;
+      console.log("NEW COLLAB \n");
+      console.log(collab);
+
+      if(!collab.permissions.admin && collab.permissions.push){
+        integrateurs.push(collab);
+      }
+    });
+
+    return integrateurs;
 
   }//END : getIntegrateursFromRepo
 

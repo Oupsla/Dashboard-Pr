@@ -14,5 +14,5 @@ angular.module('dashboardPr').config(function ($urlRouterProvider, $stateProvide
       template: '<integrateurs></integrateurs>'
     });;
 
-  $urlRouterProvider.otherwise("/integrateurs");
+  $urlRouterProvider.otherwise("/github");
 });

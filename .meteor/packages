@@ -45,3 +45,4 @@ xolvio:cleaner
 angular:angular-mocks
 modules@0.7.6
 shell-server
+uris:angularjs-mddatatable

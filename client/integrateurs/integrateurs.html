@@ -1,5 +1,22 @@
-<h3 class="ng-binding" ng-hide="integrateurs.showPage" >Veuillez d'abord séléctionner un répository <a href="/github">ici</a>.</h3>
+<h3 class="ng-binding" ng-hide="integrateurs.showPage" >Please select a repo <a href="/github">here</a>.</h3>
 
-<div>
-  <h3 class="ng-binding" ng-show="integrateurs.showPage" >{{ integrateurs.reposelected }}</h3>
+<div ng-show="integrateurs.showPage">
+  <h3 class="ng-binding">{{ integrateurs.reposelected }}</h3>
+
+  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,100]}">
+    <mdt-header-row>
+      <mdt-column align-rule="left">Avatar</mdt-column>
+      <mdt-column align-rule="left">Login</mdt-column>
+    </mdt-header-row>
+    <mdt-row ng-repeat="integra in integrateurs.integrateurs">
+      <mdt-cell html-content="true">
+          <div class="crop">
+              <img ng-src="{{integra.avatar_url}}" alt="Avatar de {{nutrition.login}}" style="width:50px;height:50px;"/>
+          </div>
+      </mdt-cell>
+      <mdt-cell>{{integra.login}}</mdt-cell>
+    </mdt-row>
+  </mdt-table>
+
+
 </div>

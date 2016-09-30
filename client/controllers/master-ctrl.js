@@ -20,11 +20,11 @@ function MasterCtrl($scope, $location) {
     $scope.descriptionCurrent = function(){
         switch ($location.path()) {
           case "/github":
-            return "Sélectionnez votre projet à gérer";
+            return "Select your repo to manage";
           case "/assignations":
-            return "Assigner les nouvelles Pull Requests à vos intégrateurs";
+            return "Assign new pull requests to the team";
           case "/integrateurs":
-            return "Gérer vos intégrateurs";
+            return "Manage your team";
           default:
             return "";
         }

@@ -15,7 +15,7 @@ angular.module('dashboardPr')
       //######################## Vars #############################
 
       this.reposelected = Session.get("reposelected");
-      this.collaborateurs = new ReactiveArray();
+      this.integrateurs = new ReactiveArray();
 
       this.helpers({
         showPage: () => {
@@ -36,23 +36,20 @@ angular.module('dashboardPr')
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
-        console.log(githubUsername);
-        console.log(accessToken);
-        console.log(this.reposelected);
-
         Meteor.call('getIntegrateursFromRepo', githubUsername, accessToken, this.reposelected,
           function (error, result) {
+              console.log(result);
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
               if(error){
-                bertError("Erreur lors de la récupération des collaborateurs. Detail : " + error);
+                bertError("Error retrieving your team. Details : " + error);
               } else {
                 //Remove old
-                this.collaborateurs.splice(0, this.collaborateurs.length);
+                this.integrateurs.splice(0, this.integrateurs.length);
                 for (var i = 0; i < result.length; i++) {
-                  this.collaborateurs.push(result[i]);
+                  this.integrateurs.push(result[i]);
                 }
-                bertInfo("Récupération des collaborateurs réussie !");
+                bertInfo("Retrieving your team successful");
               }
         }.bind(this));
 

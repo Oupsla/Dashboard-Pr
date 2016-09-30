@@ -33,7 +33,6 @@ angular.module('dashboardPr')
       //######################## METHODS #############################
 
       this.getRepo = (refresh = false) => {
-
         var githubUsername = Meteor.user().services.github.username;
 
         if(!githubUsername)
@@ -54,7 +53,7 @@ angular.module('dashboardPr')
           }
           cfpLoadingBar.complete();
           this.alreadyRunning = false;
-          bertInfo("Récupération de vos repos réussie à partir du cache !");
+          bertInfo("Retrieving your repos successful from cache");
           return;
         }
 
@@ -63,7 +62,7 @@ angular.module('dashboardPr')
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
               if(error){
-                bertError("Erreur lors de la récupération de vos repos. Detail : " + error);
+                bertError("Error retrieving your repos. Details : " + error);
               } else {
                 //Remove old
                 this.repos.splice(0, this.repos.length);
@@ -72,7 +71,7 @@ angular.module('dashboardPr')
                   this.repos.push(result[i]);
                 }
 
-                bertInfo("Récupération de vos repos réussie !");
+                bertInfo("Retrieving your repos successful");
               }
         }.bind(this));
       } //END : getRepos
@@ -81,11 +80,11 @@ angular.module('dashboardPr')
 
       this.selectRepo = () => {
         if(!this.reposelected){
-          bertError("Veuillez sélectionner un repo");
+          bertError("Please select a repo");
         } else {
           Session.set("reposelected",this.reposelected);
           $location.path("/integrateurs");
-          $scope.$apply();
+          //$scope.$apply();
         }
 
       }//END : selectRepo
