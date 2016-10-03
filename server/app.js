@@ -14,9 +14,12 @@ function initGithubApi(tokenGithub){
     timeout: 5000
   });
 
+  console.log("Github auth : " + tokenGithub);
+
+  // oauth key/secret (to get a token)
   github.authenticate({
-    type: "token",
-    token: ""
+      type: "oauth",
+      token: tokenGithub
   });
 
 
@@ -29,16 +32,13 @@ Meteor.methods({
     if(!github)
       initGithubApi(token);
 
-    var currentPage = 0;
     var repos = null;
 
     var repos = Async.runSync(function(done) {
       github.repos.getAll({
-        "affiliation": "owner,organization_member",
-        "page": currentPage,
+        "affiliation": "owner,collaborator",
         "per_page": 100
       }, function(err, res) {
-
         if (github.hasNextPage(res)) {
           github.getNextPage(res, null, function(err, res) {
             done(err, res);
@@ -46,7 +46,6 @@ Meteor.methods({
         } else {
           done(err, res);
         }
-
       });
     });
 
@@ -161,5 +160,6 @@ Meteor.methods({
     return result;
 
   }//END : getIntegrateursFromRepo
+
 
 });
