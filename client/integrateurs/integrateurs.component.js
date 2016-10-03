@@ -46,8 +46,8 @@ angular.module('dashboardPr')
               } else {
                 //Remove old
                 this.integrateurs.splice(0, this.integrateurs.length);
-                for (var i = 0; i < result.length; i++) {
-                  this.integrateurs.push(result[i]);
+                for (var i = 0; i < result.integrateurs.length; i++) {
+                  this.integrateurs.push(result.integrateurs[i]);
                 }
                 bertInfo("Retrieving your team successful");
               }

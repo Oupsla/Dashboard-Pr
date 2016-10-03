@@ -1,4 +1,10 @@
 angular.module('dashboardPr')
+  .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+  })
   .directive('github', function() {
   return {
     restrict: 'E',
@@ -15,6 +21,7 @@ angular.module('dashboardPr')
       //######################## Vars #############################
       this.repos = new ReactiveArray();
       this.currentPageRepo = 0;
+      this.pageSize = 10;
       this.reposelected = null;
 
       this.helpers({
@@ -25,7 +32,7 @@ angular.module('dashboardPr')
           return this.repos.list();
         },
         numberOfPagesRepo: () => {
-          return Math.ceil(this.repos.list().length/10);
+          return Math.ceil(this.repos.list().length/this.pageSize);
         }
       });
 

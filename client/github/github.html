@@ -9,9 +9,10 @@
   </md-input-container>
 
   <md-radio-group ng-model="github.reposelected">
-    <md-list-item ng-repeat="repo in github.reposUser
-      | filter:{name: github.searchRepo}
-      | limitTo:10">
+    <md-list-item
+      ng-repeat="repo in github.reposUser
+      | startFrom:github.currentPageRepo*github.pageSize
+      | limitTo:github.pageSize">
 
       <md-radio-button value="{{ repo.name }}" name="repoRadio">
         {{ repo.name }}
