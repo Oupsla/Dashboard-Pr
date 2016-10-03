@@ -45,6 +45,8 @@ angular.module('dashboardPr')
         if(!githubUsername)
           return;
 
+        console.log(Meteor.user());
+
         var accessToken = Meteor.user().services.github.accessToken;
 
         this.currentPageRepo = 0;

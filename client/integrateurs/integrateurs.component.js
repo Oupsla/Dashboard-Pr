@@ -11,11 +11,15 @@ angular.module('dashboardPr')
       this.subscribe('users').ready();
       this.subscribe('githubRepos').ready();
       this.subscribe('githubPr').ready();
+      this.subscribe('githubIntegrateur').ready();
 
       //######################## Vars #############################
-
       this.reposelected = Session.get("reposelected");
       this.integrateurs = new ReactiveArray();
+
+      this.types = [
+        "Test", "Front", "Back", "Other"
+      ];
 
       this.helpers({
         showPage: () => {
@@ -53,7 +57,21 @@ angular.module('dashboardPr')
               }
         }.bind(this));
 
-      }
+      };
+
+      this.updateIntegrateur = () => {
+
+        var githubUsername = Meteor.user().services.github.username;
+
+        if(!githubUsername || !this.reposelected)
+          return;
+
+        GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
+          repo:username+"/"+repo,
+          repos:this.integrateurs
+        }});
+
+      };
 
       Tracker.autorun(function() {
         if (Meteor.user() != undefined && Meteor.user().services != undefined && $location.path() == "/integrateurs" ) {
