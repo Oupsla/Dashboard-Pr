@@ -59,18 +59,25 @@ angular.module('dashboardPr')
 
       };
 
-      this.updateIntegrateur = () => {
+      this.updateIntegrateurs = () => {
 
         var githubUsername = Meteor.user().services.github.username;
 
         if(!githubUsername || !this.reposelected)
           return;
 
-        GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
-          repo:username+"/"+repo,
-          repos:this.integrateurs
-        }});
+        console.log(JSON.stringify(this.integrateurs));
 
+        Meteor.call('updateIntegrateurs', githubUsername, this.reposelected, this.integrateurs,
+          function (error, result) {
+              cfpLoadingBar.complete();
+              this.alreadyRunning = false;
+              if(error){
+                bertError("Error updating your team. Details : " + error);
+              } else {
+                bertInfo("Updating your team successful");
+              }
+        }.bind(this));
       };
 
       Tracker.autorun(function() {

@@ -1,9 +1,5 @@
 GithubIntegrateur = new Mongo.Collection("githubIntegrateur");
 
-//ForTest
-export const GithubIntegrateurCollection = GithubIntegrateur;
-
-
 if (Meteor.isServer) {
 
   GithubIntegrateur.allow({

@@ -159,7 +159,17 @@ Meteor.methods({
 
     return result;
 
-  }//END : getIntegrateursFromRepo
+  },//END : getIntegrateursFromRepo
 
+  updateIntegrateurs: function (username, repo, integrateurs) {
+
+    GithubIntegrateur.upsert({repo:username+""+repo}, { $set:{
+      repo:username+""+repo,
+      repos:integrateurs
+    }});
+
+    return true;
+
+  }//END : updateIntegrateurs
 
 });

@@ -28,12 +28,15 @@
 
       <mdt-cell html-content="true">
           <md-input-container>
-            <input type="text" ng-model="integra.note" required>
+            <textarea ng-model="integra.note" required> </textarea>
           </md-input-container>
       </mdt-cell>
 
     </mdt-row>
   </mdt-table>
+
+  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="integrateurs.updateIntegrateurs()">Update Team !</button>
+
 
 
 </div>

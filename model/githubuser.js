@@ -1,9 +1,5 @@
 GithubUser = new Mongo.Collection("githubUser");
 
-//ForTest
-export const GithubUserCollection = GithubUser;
-
-
 if (Meteor.isServer) {
 
   GithubUser.allow({

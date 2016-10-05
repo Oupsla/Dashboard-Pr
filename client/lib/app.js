@@ -22,6 +22,13 @@ angular.module('dashboardPr', [
     };
 });
 
+Accounts.ui.config({
+  requestPermissions: {
+    github: ['user', 'repo', 'admin:org', 'admin:repo_hook', 'notifications']
+  }
+});
+
+
 bertError = function bertError(message){
   Bert.alert({
     title: "Erreur",
