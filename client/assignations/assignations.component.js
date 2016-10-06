@@ -9,16 +9,15 @@ angular.module('dashboardPr')
 
       //Subscribe to differents sources to access data
       this.subscribe('users').ready();
-      this.subscribe('githubRepos').ready();
-      this.subscribe('githubPr').ready();
+      this.subscribe('githubIntegrateur').ready();
 
       //######################## Vars #############################
 
       this.reposelected = Session.get("reposelected");
+      this.pullRqsToAssign = new ReactiveArray();
+      this.pullRqsAssigned = new ReactiveArray();
 
-
-
-
+      this.integrateurs = null;
 
       this.helpers({
         showPage: () => {
@@ -35,6 +34,12 @@ angular.module('dashboardPr')
         if(!githubUsername || !this.reposelected)
           return;
 
+        this.integrateurs = GithubIntegrateur.findOne({repo:githubUsername+"/"+this.reposelected});
+        if(this.integrateurs != null)
+           this.integrateurs = this.integrateurs.integrateurs;
+
+        console.log(this.integrateurs);
+
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
@@ -50,7 +55,13 @@ angular.module('dashboardPr')
                 console.log(result);
 
                 for (var i = 0; i < result.length; i++) {
-                  console.log(result[i].title);
+
+                  if (result[i].assignees.length == 0){
+                    this.pullRqsToAssign.push(result[i]);
+                  }
+                  if (result[i].assignees.length > 0){
+                    this.pullRqsAssigned.push(result[i]);
+                  }
                 }
 
               }
