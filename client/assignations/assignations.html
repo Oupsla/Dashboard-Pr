@@ -2,4 +2,18 @@
 
 <div>
   <h3 class="ng-binding" ng-show="assignations.showPage" >{{ assignations.reposelected }}</h3>
+
+  <md-radio-group ng-model="assignations.prSelected">
+    <md-list-item
+      ng-repeat="repo in github.reposUser
+      | startFrom:github.currentPageRepo*github.pageSize
+      | limitTo:github.pageSize">
+
+      <md-radio-button value="{{ repo.name }}" name="repoRadio">
+        {{ repo.name }}
+      </md-radio-button>
+    </md-list-item>
+  </md-radio-group>
+
+
 </div>

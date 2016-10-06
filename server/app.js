@@ -66,6 +66,42 @@ Meteor.methods({
     return repos.result;
   },// END : getReposFromUser
 
+  getPRsFromProject: function (username, repo, token) {
+    console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
+    if(!github)
+      initGithubApi(token);
+
+    var pullRequests = null;
+
+
+    var pullRequests = Async.runSync(function(done) {
+      github.pullRequests.getAll({
+        "user": username,
+        "repo": repo,
+        "state": "open",
+      }, function(err, res) {
+        if (github.hasNextPage(res)) {
+          github.getNextPage(res, null, function(err, res) {
+            done(err, res);
+          });
+        } else {
+          done(err, res);
+        }
+      });
+    });
+
+    if(pullRequests.error != null){
+      if(pullRequests.error.message.search("Not Found") != -1)
+        throw new Meteor.Error(400, "PR not found");
+      else
+        throw new Meteor.Error(400, pullRequests.error.message);
+    }
+
+    return pullRequests.result;
+
+
+  }, // END : getPRsFromProject
+
   getIntegrateursFromRepo: function (username, token, repo) {
 
     if(!github)

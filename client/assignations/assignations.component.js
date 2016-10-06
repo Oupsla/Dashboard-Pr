@@ -40,17 +40,29 @@ angular.module('dashboardPr')
 
         Meteor.call('getPRsFromProject', githubUsername, this.reposelected,  accessToken,
           function (error, result) {
-              console.log(result);
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
               if(error){
                 bertError("Error retrieving your team. Details : " + error);
               } else {
                 bertInfo("Retrieving your PRs successful");
+                console.log("coucou");
+                console.log(result);
+
+                for (var i = 0; i < result.length; i++) {
+                  console.log(result[i].title);
+                }
+
               }
         }.bind(this));
 
       }
+
+      Tracker.autorun(function() {
+        if (Meteor.user() != undefined && Meteor.user().services != undefined && $location.path() == "/assignations" ) {
+          this.getPullRequests();
+        }
+      }.bind(this));
 
 
     }
