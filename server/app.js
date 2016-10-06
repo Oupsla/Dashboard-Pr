@@ -140,7 +140,6 @@ Meteor.methods({
     collaborateurs.result.forEach(function (collab) {
       if(!collab.permissions.admin && collab.permissions.push){
         integrateurs.push(collab);
-
       }
     });
 
@@ -160,7 +159,7 @@ Meteor.methods({
         if (integrateurs.hasOwnProperty(key)) {
           for (var i=0; i<integrateursDB.length; i++) {
             if (integrateursDB[i].login == integrateurs[key].login) {
-              integrateurs[key].type = integrateursDB[i].type;
+              integrateurs[key].typeIntegrateur = integrateursDB[i].typeIntegrateur;
               integrateurs[key].note = integrateursDB[i].note;
               break;
             }
@@ -262,7 +261,7 @@ Meteor.methods({
           if (integrateursDB[i].login == integrateurs[key].login) {
             integrateursDB[i].id = integrateurs[key].id;
             integrateursDB[i].avatar_url = integrateurs[key].avatar_url;
-            integrateursDB[i].type = integrateurs[key].type;
+            integrateursDB[i].typeIntegrateur = integrateurs[key].typeIntegrateur;
             integrateursDB[i].note = integrateurs[key].note;
             integrateursDB[i].permissions =integrateurs[key].permissions;
             break;

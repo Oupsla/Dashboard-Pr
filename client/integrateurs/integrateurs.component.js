@@ -62,7 +62,7 @@ angular.module('dashboardPr')
 
         if(!githubUsername || !this.reposelected)
           return;
-          
+
         Meteor.call('updateIntegrateurs', githubUsername, this.reposelected, this.integrateurs,
           function (error, result) {
               cfpLoadingBar.complete();

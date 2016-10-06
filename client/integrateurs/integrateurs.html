@@ -3,14 +3,15 @@
 <div ng-show="integrateurs.showPage">
   <h3 class="ng-binding">{{ integrateurs.reposelected }}</h3>
 
-  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,100]}">
+  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [10,20,50]}">
     <mdt-header-row>
       <mdt-column align-rule="left">Avatar</mdt-column>
-      <mdt-column align-rule="left" sortable-columns=t>Login</mdt-column>
-      <mdt-column align-rule="left">Number of PR assigned</mdt-column>
+      <mdt-column align-rule="left">Login</mdt-column>
+      <mdt-column align-rule="left">PR assigned</mdt-column>
       <mdt-column align-rule="left">Type</mdt-column>
       <mdt-column align-rule="left">Note</mdt-column>
     </mdt-header-row>
+
     <mdt-row ng-repeat="integra in integrateurs.integrateurs">
 
       <mdt-cell html-content="true">
@@ -24,7 +25,7 @@
       <mdt-cell>{{integra.numberPr}}</mdt-cell>
 
       <mdt-cell html-content="true">
-        <md-select ng-model="integra.type" placeholder="Select a type">
+        <md-select ng-model="integra.typeIntegrateur" placeholder="Select a type">
           <md-option ng-value="opt" ng-repeat="opt in integrateurs.types">{{ opt }}</md-option>
         </md-select>
       </mdt-cell>

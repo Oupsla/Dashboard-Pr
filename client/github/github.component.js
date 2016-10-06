@@ -90,7 +90,7 @@ angular.module('dashboardPr')
           bertError("Please select a repo");
         } else {
           Session.set("reposelected",this.reposelected);
-          $location.path("/assignations");
+          $location.path("/integrateurs");
           //$scope.$apply();
         }
 
