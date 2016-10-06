@@ -14,8 +14,6 @@ function initGithubApi(tokenGithub){
     timeout: 5000
   });
 
-  console.log("Github auth : " + tokenGithub);
-
   // oauth key/secret (to get a token)
   github.authenticate({
       type: "oauth",
@@ -146,19 +144,44 @@ Meteor.methods({
       }
     });
 
-    //Save in db cache
-    GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
-      repo:username+"/"+repo,
-      repos:integrateurs
-    }});
+    //Store integrators in DB
+    var integrateursDB = GithubIntegrateur.findOne({repo:username+"/"+repo});
+    if(integrateursDB == null){
+      //First Time
+      GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
+        repo:username+"/"+repo,
+        integrateurs:integrateurs
+      }});
+    } else {
+      //Update
+      integrateursDB = integrateursDB.integrateurs;
+
+      for (var key in integrateurs) {
+        if (integrateurs.hasOwnProperty(key)) {
+          for (var i=0; i<integrateursDB.length; i++) {
+            if (integrateursDB[i].login == integrateurs[key].login) {
+              integrateurs[key].type = integrateursDB[i].type;
+              integrateurs[key].note = integrateursDB[i].note;
+              break;
+            }
+          }
+        }
+      }
+
+      GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
+        repo:username+"/"+repo,
+        integrateurs:integrateurs
+      }});
+    }
 
 
-    var events = null;
+    /*var events = null;
 
     events = Async.runSync(function(done) {
-      github.activity.getEventsForRepoIssues({
+      github.pullRequests.getAll({
         "user": username,
         "repo": repo,
+        "state": "all",
         "per_page": 100
       }, function(err, res) {
         if (github.hasNextPage(res)) {
@@ -178,44 +201,80 @@ Meteor.methods({
         throw new Meteor.Error(400, events.error.message);
     }
 
+
     //crushing events
-    events.result.forEach(function (evt) {
-      if(evt.event == "merged"){
+    var firstTimeCrushing = true;
+    events.result.some(function (evt) {
+      if(evt.merged_at != null && evt.assignee != null){
 
-      
+        console.log("New assignee");
+        console.log(JSON.stringify(evt.assignee));
 
+        var integraCache = GithubIntegrateur.findOne({integrateurName:username+"-"+repo+"-"+evt.assignee.login});
+
+        //Old Integrator, skip it
+        if(integraCache == null)
+          return true;
+
+
+        //If first time, we will crush all events and not stopping
+        if(integraCache.updateTime != null)
+          firstTimeCrushing = false;
+
+        //We reached the last event in list not already crushed
+        if(!firstTimeCrushing && evt.merged_at >= integraCache.updateTime ){
+          return false;
+        }
+
+
+        var oldNumberPr = ((integraCache.numberPr == null) ? integraCache.numberPr : 0);
+
+        GithubIntegrateur.upsert({integrateurName:username+"-"+repo+"-"+evt.assignee.login}, { $set:{
+          numberPr:oldNumberPr + 1,
+          updateTime:evt.merged_at
+        }});
       }
     });
 
 
-    console.log(events);
+    console.log(events); */
 
 
 
     result.integrateurs = integrateurs;
-    result.stats = events;
+    //result.stats = events;
 
     return result;
 
   },//END : getIntegrateursFromRepo
 
   updateIntegrateurs: function (username, repo, integrateurs) {
-  
+
+    var integrateursDB = GithubIntegrateur.findOne({repo:username+"/"+repo});
+    if(integrateursDB == null)
+      return;
+    integrateursDB = integrateursDB.integrateurs;
+
     for (var key in integrateurs) {
       if (integrateurs.hasOwnProperty(key)) {
-        console.log(key + " -> " + JSON.stringify(integrateurs[key]));
 
-        GithubIntegrateur.upsert({integrateurName:username+"-"+repo+"-"+integrateurs[key].login}, { $set:{
-          integrateurName:username+"-"+repo+"-"+integrateurs[key].login,
-          id:integrateurs[key].id,
-          avatar_url:integrateurs[key].avatar_url,
-          type:integrateurs[key].type,
-          note:integrateurs[key].note,
-          permissions:integrateurs[key].permissions
-        }});
-
+        for (var i=0; i<integrateursDB.length; i++) {
+          if (integrateursDB[i].login == integrateurs[key].login) {
+            integrateursDB[i].id = integrateurs[key].id;
+            integrateursDB[i].avatar_url = integrateurs[key].avatar_url;
+            integrateursDB[i].type = integrateurs[key].type;
+            integrateursDB[i].note = integrateurs[key].note;
+            integrateursDB[i].permissions =integrateurs[key].permissions;
+            break;
+          }
+        }
       }
     }
+
+    GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
+      repo:username+"/"+repo,
+      integrateurs:integrateursDB
+    }});
 
     return true;
 

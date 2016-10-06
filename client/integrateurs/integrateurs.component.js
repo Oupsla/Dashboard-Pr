@@ -48,9 +48,6 @@ angular.module('dashboardPr')
                 //Remove old
                 this.integrateurs.splice(0, this.integrateurs.length);
                 for (var i = 0; i < result.integrateurs.length; i++) {
-                  var integraCache = GithubIntegrateur.findOne({integrateurName:githubUsername+"-"+this.reposelected+"-"+result.integrateurs[i].login});
-                  result.integrateurs[i].note = integraCache.note;
-                  result.integrateurs[i].type = integraCache.type;
                   this.integrateurs.push(result.integrateurs[i]);
                 }
                 bertInfo("Retrieving your team successful");
@@ -65,9 +62,7 @@ angular.module('dashboardPr')
 
         if(!githubUsername || !this.reposelected)
           return;
-
-        console.log(JSON.stringify(this.integrateurs));
-
+          
         Meteor.call('updateIntegrateurs', githubUsername, this.reposelected, this.integrateurs,
           function (error, result) {
               cfpLoadingBar.complete();

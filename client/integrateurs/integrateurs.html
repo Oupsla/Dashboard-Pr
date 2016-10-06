@@ -7,6 +7,7 @@
     <mdt-header-row>
       <mdt-column align-rule="left">Avatar</mdt-column>
       <mdt-column align-rule="left" sortable-columns=t>Login</mdt-column>
+      <mdt-column align-rule="left">Number of PR assigned</mdt-column>
       <mdt-column align-rule="left">Type</mdt-column>
       <mdt-column align-rule="left">Note</mdt-column>
     </mdt-header-row>
@@ -19,6 +20,8 @@
       </mdt-cell>
 
       <mdt-cell>{{integra.login}}</mdt-cell>
+
+      <mdt-cell>{{integra.numberPr}}</mdt-cell>
 
       <mdt-cell html-content="true">
         <md-select ng-model="integra.type" placeholder="Select a type">
