@@ -6,9 +6,9 @@
   <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,100]}">
     <mdt-header-row>
       <mdt-column align-rule="left">Avatar</mdt-column>
-      <mdt-column align-rule="left">Login</mdt-column>
+      <mdt-column align-rule="left" sortable-columns=t>Login</mdt-column>
       <mdt-column align-rule="left">Type</mdt-column>
-      <mdt-column align-rule="right">Note</mdt-column>
+      <mdt-column align-rule="left">Note</mdt-column>
     </mdt-header-row>
     <mdt-row ng-repeat="integra in integrateurs.integrateurs">
 
@@ -28,7 +28,7 @@
 
       <mdt-cell html-content="true">
           <md-input-container>
-            <textarea ng-model="integra.note" required> </textarea>
+            <textarea ng-model="integra.note"> </textarea>
           </md-input-container>
       </mdt-cell>
 

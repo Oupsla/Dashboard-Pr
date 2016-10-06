@@ -146,6 +146,8 @@ Meteor.methods({
     events.result.forEach(function (evt) {
       if(evt.event == "merged"){
 
+      
+
       }
     });
 
@@ -162,11 +164,22 @@ Meteor.methods({
   },//END : getIntegrateursFromRepo
 
   updateIntegrateurs: function (username, repo, integrateurs) {
+  
+    for (var key in integrateurs) {
+      if (integrateurs.hasOwnProperty(key)) {
+        console.log(key + " -> " + JSON.stringify(integrateurs[key]));
 
-    GithubIntegrateur.upsert({repo:username+""+repo}, { $set:{
-      repo:username+""+repo,
-      repos:integrateurs
-    }});
+        GithubIntegrateur.upsert({integrateurName:username+"-"+repo+"-"+integrateurs[key].login}, { $set:{
+          integrateurName:username+"-"+repo+"-"+integrateurs[key].login,
+          id:integrateurs[key].id,
+          avatar_url:integrateurs[key].avatar_url,
+          type:integrateurs[key].type,
+          note:integrateurs[key].note,
+          permissions:integrateurs[key].permissions
+        }});
+
+      }
+    }
 
     return true;
 

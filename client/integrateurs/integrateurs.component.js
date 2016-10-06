@@ -27,8 +27,6 @@ angular.module('dashboardPr')
         }
       });
 
-
-
       //######################## METHODS #############################
 
       this.getCollabos = (refresh = false) => {
@@ -42,7 +40,6 @@ angular.module('dashboardPr')
 
         Meteor.call('getIntegrateursFromRepo', githubUsername, accessToken, this.reposelected,
           function (error, result) {
-              console.log(result);
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
               if(error){
@@ -51,6 +48,9 @@ angular.module('dashboardPr')
                 //Remove old
                 this.integrateurs.splice(0, this.integrateurs.length);
                 for (var i = 0; i < result.integrateurs.length; i++) {
+                  var integraCache = GithubIntegrateur.findOne({integrateurName:githubUsername+"-"+this.reposelected+"-"+result.integrateurs[i].login});
+                  result.integrateurs[i].note = integraCache.note;
+                  result.integrateurs[i].type = integraCache.type;
                   this.integrateurs.push(result.integrateurs[i]);
                 }
                 bertInfo("Retrieving your team successful");
