@@ -65,7 +65,7 @@ Meteor.methods({
   },// END : getReposFromUser
 
   getPRsFromProject: function (username, repo, token) {
-    console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
+
     if(!github)
       initGithubApi(token);
 
@@ -95,9 +95,34 @@ Meteor.methods({
         throw new Meteor.Error(400, pullRequests.error.message);
     }
 
+
+    //We will know count the number of assignement by integrators
+    var integrateursDB = GithubIntegrateur.findOne({repo:username+"/"+repo});
+    if(integrateursDB == null)
+      return;
+    integrateursDB = integrateursDB.integrateurs;
+
+    for (var i=0; i<integrateursDB.length; i++) {
+        integrateursDB[i].numberAssign = 0;
+    }
+
+
+    pullRequests.result.forEach(function (pr) {
+      if(pr.assignee != null){
+        for (var i=0; i<integrateursDB.length; i++) {
+          if (pr.assignee.login == integrateursDB[i].login)
+            integrateursDB[i].numberAssign += 1;  
+        }
+      }
+    });
+
+    GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
+      repo:username+"/"+repo,
+      integrateurs:integrateursDB
+    }});
+
+
     return pullRequests.result;
-
-
   }, // END : getPRsFromProject
 
   getIntegrateursFromRepo: function (username, token, repo) {
@@ -161,6 +186,7 @@ Meteor.methods({
             if (integrateursDB[i].login == integrateurs[key].login) {
               integrateurs[key].typeIntegrateur = integrateursDB[i].typeIntegrateur;
               integrateurs[key].note = integrateursDB[i].note;
+              integrateurs[key].numberAssign = integrateursDB[i].numberAssign;
               break;
             }
           }
@@ -173,75 +199,7 @@ Meteor.methods({
       }});
     }
 
-
-    /*var events = null;
-
-    events = Async.runSync(function(done) {
-      github.pullRequests.getAll({
-        "user": username,
-        "repo": repo,
-        "state": "all",
-        "per_page": 100
-      }, function(err, res) {
-        if (github.hasNextPage(res)) {
-          github.getNextPage(res, null, function(err, res) {
-            done(err, res);
-          });
-        } else {
-          done(err, res);
-        }
-      });
-    });
-
-    if(events.error != null){
-      if(events.error.message.search("Not Found") != -1)
-        throw new Meteor.Error(400, "User not found");
-      else
-        throw new Meteor.Error(400, events.error.message);
-    }
-
-
-    //crushing events
-    var firstTimeCrushing = true;
-    events.result.some(function (evt) {
-      if(evt.merged_at != null && evt.assignee != null){
-
-        console.log("New assignee");
-        console.log(JSON.stringify(evt.assignee));
-
-        var integraCache = GithubIntegrateur.findOne({integrateurName:username+"-"+repo+"-"+evt.assignee.login});
-
-        //Old Integrator, skip it
-        if(integraCache == null)
-          return true;
-
-
-        //If first time, we will crush all events and not stopping
-        if(integraCache.updateTime != null)
-          firstTimeCrushing = false;
-
-        //We reached the last event in list not already crushed
-        if(!firstTimeCrushing && evt.merged_at >= integraCache.updateTime ){
-          return false;
-        }
-
-
-        var oldNumberPr = ((integraCache.numberPr == null) ? integraCache.numberPr : 0);
-
-        GithubIntegrateur.upsert({integrateurName:username+"-"+repo+"-"+evt.assignee.login}, { $set:{
-          numberPr:oldNumberPr + 1,
-          updateTime:evt.merged_at
-        }});
-      }
-    });
-
-
-    console.log(events); */
-
-
-
     result.integrateurs = integrateurs;
-    //result.stats = events;
 
     return result;
 
@@ -263,7 +221,8 @@ Meteor.methods({
             integrateursDB[i].avatar_url = integrateurs[key].avatar_url;
             integrateursDB[i].typeIntegrateur = integrateurs[key].typeIntegrateur;
             integrateursDB[i].note = integrateurs[key].note;
-            integrateursDB[i].permissions =integrateurs[key].permissions;
+            integrateursDB[i].permissions = integrateurs[key].permissions;
+            integrateursDB[i].numberAssign = integrateurs[key].numberAssign;
             break;
           }
         }
@@ -277,6 +236,14 @@ Meteor.methods({
 
     return true;
 
-  }//END : updateIntegrateurs
+  },//END : updateIntegrateurs
+
+  autoAssign: function(username, repo){
+
+  }//END : autoAssign
+
+
+
+
 
 });

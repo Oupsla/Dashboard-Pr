@@ -38,8 +38,6 @@ angular.module('dashboardPr')
         if(this.integrateurs != null)
            this.integrateurs = this.integrateurs.integrateurs;
 
-        console.log(this.integrateurs);
-
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
@@ -51,8 +49,6 @@ angular.module('dashboardPr')
                 bertError("Error retrieving your team. Details : " + error);
               } else {
                 bertInfo("Retrieving your PRs successful");
-                console.log("coucou");
-                console.log(result);
 
                 for (var i = 0; i < result.length; i++) {
 
@@ -67,6 +63,23 @@ angular.module('dashboardPr')
               }
         }.bind(this));
 
+      }
+
+      this.autoAssign = () => {
+
+        var githubUsername = Meteor.user().services.github.username;
+
+        if(!githubUsername || !this.reposelected)
+          return;
+
+        Meteor.call('getPRsFromProject', githubUsername, this.reposelected,
+          function (error, result) {
+            if(error){
+              bertError("Auto Assign failed. Details : " + error);
+            } else {
+              bertInfo("Auto Assign successful");
+            }
+          }.bind(this));
       }
 
       Tracker.autorun(function() {
