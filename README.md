@@ -1,6 +1,15 @@
 # OPL - Thème 1: Pull Request Engineering
 11/10/2016
+
 Denis Hamann - Nicolas Delperdange
+
+## Table des matières
+**[Introduction](#introduction)**  
+**[Travail technique](#travail-technique)**  
+**[Evaluation](#evaluation)**  
+**[Limitation](#limitation)**  
+**[Conclusion](#conclusion)**  
+**[Glossaire](#glossaire)**
 
 ## Introduction
 Dans le but d'améliorer les Pull Requests de Github, nous avons concentré notre travail sur le système d'assignation.
@@ -34,8 +43,12 @@ Le travail technique n'est pas un but en lui-même, c'est plutot le résultat et
 TODO
 ### Architecture (langage, librairies utilisées, modules et classes)
 Client : AngularJs
+
 Serveur : NodeJs
+
 Framework : Meteor
+
+# ![Architecture](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/System.png)
 
 Librairies :
 - Async https://github.com/caolan/async
@@ -43,11 +56,13 @@ Librairies :
 
 TODO (modules et classes)
 
-### Implémentation (code/patterns/idioms élégants ou efficaces, taille)
-TODO
-### Utilisation (screenshots, etc)
+### Implémentation
+TODO  (code/patterns/idioms élégants ou efficaces, taille)
+### Utilisation
+Lancement :
 - meteor npm install
 - ROOT_URL=http://ipserveur meteor (example : ROOT_URL=http://91.121.181.105:3000 meteor)
+
 TODO (screenshots, etc)
 
 ## Evaluation
