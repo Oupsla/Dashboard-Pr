@@ -9,7 +9,7 @@
     <mdt-header-row>
       <mdt-column align-rule="left">Nom</mdt-column>
       <mdt-column align-rule="left">Assignation</mdt-column>
-      <mdt-column align-rule="left"></mdt-column>
+      <mdt-column align-rule="left">Assign</mdt-column>
     </mdt-header-row>
     <mdt-row ng-repeat="pullRq in assignations.pullRqsToAssign">
 
@@ -25,7 +25,7 @@
 
 
       <mdt-cell html-content="true">
-          <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="">Assign</button>
+          <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.addAssignement(pullRq.assigned.login, pullRq.number)">Assign</button>
       </mdt-cell>
 
     </mdt-row>
@@ -48,7 +48,7 @@
           <ul class="list-group">
             <li class="list-group-item" ng-repeat="assignee in pullRq.assignees">
               <a ng-href="{{assignee.html_url}}" target="_blank">{{assignee.login}}</a>
-              <a><button class="badge" type="button" ng-click="assignations.removeAssignement()">x</button></a>
+              <a><button class="badge" type="button" ng-click="assignations.removeAssignement(assignee.login, pullRq.number)">x</button></a>
             </li>
           </ul>
       </mdt-cell>

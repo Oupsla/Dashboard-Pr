@@ -63,7 +63,51 @@ angular.module('dashboardPr')
               }
         }.bind(this));
 
-      }
+      };
+
+      this.removeAssignement = (login, issueNumber) => {
+
+        var githubUsername = Meteor.user().services.github.username;
+        if(!githubUsername || !this.reposelected)
+          return;
+        var accessToken = Meteor.user().services.github.accessToken;
+        cfpLoadingBar.start();
+
+
+
+        Meteor.call('removeAssignementOfPR', githubUsername, this.reposelected, issueNumber, login, accessToken,
+          function (error, result) {
+              cfpLoadingBar.complete();
+              this.alreadyRunning = false;
+              if(error){
+                bertError("Error updating your team. Details : " + error);
+              } else {
+                bertInfo("Successfully removed");
+              }
+        }.bind(this));
+      };
+
+      this.addAssignement = (login, issueNumber) => {
+
+        var githubUsername = Meteor.user().services.github.username;
+        if(!githubUsername || !this.reposelected)
+          return;
+        var accessToken = Meteor.user().services.github.accessToken;
+        cfpLoadingBar.start();
+
+
+
+        Meteor.call('addAssigneesToPR', githubUsername, this.reposelected, issueNumber, login, accessToken,
+          function (error, result) {
+              cfpLoadingBar.complete();
+              this.alreadyRunning = false;
+              if(error){
+                bertError("Error updating your team. Details : " + error);
+              } else {
+                bertInfo("Successfully added");
+              }
+        }.bind(this));
+      };
 
       this.autoAssign = () => {
 
