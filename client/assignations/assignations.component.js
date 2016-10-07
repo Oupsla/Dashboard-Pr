@@ -35,6 +35,8 @@ angular.module('dashboardPr')
           return;
 
         this.integrateurs = GithubIntegrateur.findOne({repo:githubUsername+"/"+this.reposelected});
+        console.log("heyeheyeyeh");
+        console.log(this.integrateurs);
         if(this.integrateurs != null)
            this.integrateurs = this.integrateurs.integrateurs;
 

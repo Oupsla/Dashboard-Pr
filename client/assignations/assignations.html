@@ -18,7 +18,7 @@
       <mdt-cell html-content="true">
           <md-select ng-model="pullRq.assigned" placeholder="Integrator">
             <md-option ng-value="opt" ng-repeat="opt in assignations.integrateurs">
-              {{ opt.login }} - {{ opt.typeIntegrateur }}
+              {{ opt.login }} - {{ opt.typeIntegrateur }} - Currently : ({{opt.numberAssign}})
             </md-option>
           </md-select>
       </mdt-cell>

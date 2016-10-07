@@ -111,7 +111,7 @@ Meteor.methods({
       if(pr.assignee != null){
         for (var i=0; i<integrateursDB.length; i++) {
           if (pr.assignee.login == integrateursDB[i].login)
-            integrateursDB[i].numberAssign += 1;  
+            integrateursDB[i].numberAssign += 1;
         }
       }
     });
@@ -124,6 +124,73 @@ Meteor.methods({
 
     return pullRequests.result;
   }, // END : getPRsFromProject
+
+
+
+  removeAssignementOfPR: function (user, repo, number, login, token) {
+    console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
+    if(!github)
+      initGithubApi(token);
+
+
+
+    console.log(user);
+    console.log(repo);
+    console.log(number);
+
+    var ass = "Oupsla";
+
+
+    var response = Async.runSync(function(done) {
+      github.issues.removeAssigneesFromIssue({
+        "user": user,
+        "repo": repo,
+        "number": number,
+        "assignees": ass
+      }, function(err, res) {
+          done(err, res);
+      });
+    });
+
+    if(response.error != null){
+      if(response.error.message.search("Not Found") != -1)
+        throw new Meteor.Error(400, "PR not found");
+      else
+        throw new Meteor.Error(400, response.error.message);
+    }
+
+    return response.result;
+
+
+  }, // END : removeAssignementOfPR
+
+  addAssigneesToPR: function (user, repo, number, login, token) {
+    console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
+    if(!github)
+      initGithubApi(token);
+
+    var response = Async.runSync(function(done) {
+      github.issues.addAssigneesToIssue({
+        "user": user,
+        "repo": repo,
+        "number": number,
+        "assignees":  login
+      }, function(err, res) {
+          done(err, res);
+      });
+    });
+
+    if(response.error != null){
+      if(response.error.message.search("Not Found") != -1)
+        throw new Meteor.Error(400, "PR not found");
+      else
+        throw new Meteor.Error(400, response.error.message);
+    }
+
+    return response.result;
+
+
+  }, // END : removeAssignementOfPR
 
   getIntegrateursFromRepo: function (username, token, repo) {
 
