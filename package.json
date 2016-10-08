@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "async": "^2.0.1",
-    "github": "^3.1.1"
+    "github": "^3.1.1",
+    "request": "~2.75.0"
   }
 }

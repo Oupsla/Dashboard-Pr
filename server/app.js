@@ -126,41 +126,42 @@ Meteor.methods({
   }, // END : getPRsFromProject
 
 
-
   removeAssignementOfPR: function (user, repo, number, login, token) {
     console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
     if(!github)
       initGithubApi(token);
 
 
+    var request=Meteor.npmRequire("request");
 
-    console.log(user);
-    console.log(repo);
-    console.log(number);
+    /*var options = {
+      url: "https://api.github.com/repos/denishamann/twistedmagic/issues/3/assignees?assignees=Oupsla&access_token=" + token,
+      headers: {
+        'User-Agent': 'DashboardPr-App'
+      }
+      //body: "assignees: ['Oupsla']"
+    };*/
 
-    var ass = "Oupsla";
+    var body = '{"assignees": ["'+login+'"]}';
 
+    var options = {
+      //url: 'https://api.github.com/repos/" +user+ "/" + repo + "/issues/" + number + "/?assignees%3D%5B%22Oupsla%22%5D%26access_token%3D' + token,
+      url: "https://api.github.com/repos/denishamann/twistedmagic/issues/3/assignees?access_token=" + token,
+      method: "DEL",
+      headers: {
+        'User-Agent': 'DashboardPr-App'
+      },
+      json: JSON.parse(body)
+    };
 
-    var response = Async.runSync(function(done) {
-      github.issues.removeAssigneesFromIssue({
-        "user": user,
-        "repo": repo,
-        "number": number,
-        "assignees": ass
-      }, function(err, res) {
-          done(err, res);
-      });
+    request.del(options,function(error,response,body){
+      if(error){
+        console.log(error);
+        throw new Meteor.Error(400, error);
+      }else{
+        return true;
+      }
     });
-
-    if(response.error != null){
-      if(response.error.message.search("Not Found") != -1)
-        throw new Meteor.Error(400, "PR not found");
-      else
-        throw new Meteor.Error(400, response.error.message);
-    }
-
-    return response.result;
-
 
   }, // END : removeAssignementOfPR
 
