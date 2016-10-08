@@ -22,7 +22,6 @@ angular.module('dashboardPr')
       this.repos = new ReactiveArray();
       this.currentPageRepo = 0;
       this.pageSize = 10;
-      this.reposelected = null;
 
       this.helpers({
         showRepos: () => {
@@ -51,8 +50,9 @@ angular.module('dashboardPr')
         cfpLoadingBar.start();
 
         //Try to get repos from cache, not from cache if refresh
-        var reposCache = GithubRepos.findOne({user:githubUsername});
+        /*var reposCache = GithubRepos.findOne({user:githubUsername});
         if(!refresh && reposCache){
+
           reposCache = reposCache.repos;
           this.repos.splice(0, this.repos.length);
           for (var i = 0; i < reposCache.length; i++) {
@@ -62,7 +62,7 @@ angular.module('dashboardPr')
           this.alreadyRunning = false;
           bertInfo("Retrieving your repos successful from cache");
           return;
-        }
+        }*/
 
         Meteor.call('getReposFromUser',githubUsername, accessToken,
           function (error, result) {
@@ -83,17 +83,15 @@ angular.module('dashboardPr')
         }.bind(this));
       } //END : getRepos
 
-
-
-      this.selectRepo = () => {
-        if(!this.reposelected){
+      this.selectRepo = (reponame) => {
+        if(!reponame){
           bertError("Please select a repo");
         } else {
-          Session.set("reposelected",this.reposelected);
+          var values = reponame.split('/');
+          Session.set("userselected",values[0]);
+          Session.set("reposelected",values[1]);
           $location.path("/integrateurs");
-          //$scope.$apply();
         }
-
       }//END : selectRepo
 
       //Le tracker va s'occuper d'appeler la méthode si la valeur de l'user change

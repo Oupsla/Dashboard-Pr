@@ -74,6 +74,9 @@ TODO
 ## Conclusion
 TODO
 
+
+Au passage, nous avons résolu une erreur dans le plugin 'node-github' (lien : https://github.com/mikedeboer/node-github/issues/431)
+
 ## Glossaire
 - Intégrateur : Personne ayant la permission de fusion sur un dépôt
 - Administrateur : Personne ayant les permissions totales sur un dépôt

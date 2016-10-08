@@ -15,10 +15,11 @@ angular.module('dashboardPr')
 
       //######################## Vars #############################
       this.reposelected = Session.get("reposelected");
+      this.userselected = Session.get("userselected");
       this.integrateurs = new ReactiveArray();
 
       this.types = [
-        "Test", "Front", "Back", "Other"
+        "Test", "Front", "Back", "Doc", "Other"
       ];
 
       this.helpers({
@@ -30,15 +31,16 @@ angular.module('dashboardPr')
       //######################## METHODS #############################
 
       this.getCollabos = (refresh = false) => {
-        var githubUsername = Meteor.user().services.github.username;
 
-        if(!githubUsername || !this.reposelected)
+        if(!this.reposelected || !this.userselected){
+          bertError("Error of selection of repository");
           return;
+        }
 
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
-        Meteor.call('getIntegrateursFromRepo', githubUsername, accessToken, this.reposelected,
+        Meteor.call('getIntegrateursFromRepo', this.userselected, this.reposelected, accessToken,
           function (error, result) {
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
@@ -58,12 +60,12 @@ angular.module('dashboardPr')
 
       this.updateIntegrateurs = () => {
 
-        var githubUsername = Meteor.user().services.github.username;
-
-        if(!githubUsername || !this.reposelected)
+        if(!this.reposelected || !this.userselected){
+          bertError("Error of selection of repository");
           return;
+        }
 
-        Meteor.call('updateIntegrateurs', githubUsername, this.reposelected, this.integrateurs,
+        Meteor.call('updateIntegrateurs', this.userselected, this.reposelected, this.integrateurs,
           function (error, result) {
               cfpLoadingBar.complete();
               this.alreadyRunning = false;

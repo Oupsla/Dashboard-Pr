@@ -127,10 +127,8 @@ Meteor.methods({
 
 
   removeAssignementOfPR: function (user, repo, number, login, token) {
-    console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
     if(!github)
       initGithubApi(token);
-
 
     var request=Meteor.npmRequire("request");
 
@@ -161,12 +159,11 @@ Meteor.methods({
       }else{
         return true;
       }
-    });
 
   }, // END : removeAssignementOfPR
 
   addAssigneesToPR: function (user, repo, number, login, token) {
-    console.log("WWWWWWWWWMMMMMMMMMMMMMMMM");
+
     if(!github)
       initGithubApi(token);
 
@@ -193,7 +190,7 @@ Meteor.methods({
 
   }, // END : removeAssignementOfPR
 
-  getIntegrateursFromRepo: function (username, token, repo) {
+  getIntegrateursFromRepo: function (username, repo, token) {
 
     if(!github)
       initGithubApi(token);
@@ -231,7 +228,7 @@ Meteor.methods({
 
     //We get all collabs, we need to remove no-admin
     collaborateurs.result.forEach(function (collab) {
-      if(!collab.permissions.admin && collab.permissions.push){
+      if(collab.permissions.push){
         integrateurs.push(collab);
       }
     });
@@ -306,7 +303,84 @@ Meteor.methods({
 
   },//END : updateIntegrateurs
 
-  autoAssign: function(username, repo){
+  autoAssign: function(username, repo, pullRequests){
+
+    var https = Meteor.require('follow-redirects').https;
+    var async = Meteor.npmRequire('async');
+
+
+    var integrateursDB = GithubIntegrateur.findOne({repo:username+"/"+repo});
+    if(integrateursDB == null)
+      return;
+    integrateursDB = integrateursDB.integrateurs;
+
+
+    var results = Async.runSync(function(done) {
+
+      async.each(pullRequests, function(pull, callback) {
+        var urlFile = pull.patch_url;
+        https.get(urlFile, function (resource) {
+          resource.setEncoding('utf8');
+          resource.on('data', function (data) {
+
+            //Now we will try to say which type is this pull request
+            if(data.indexOf('test') != -1){
+              pull.typeOfPull = 'Test';
+            } else if(data.indexOf('client') != -1 || data.indexOf('html') != -1 || data.indexOf('css') != -1 || data.indexOf('less') != -1){
+              pull.typeOfPull = 'Front';
+            } else if(data.indexOf('server') != -1){
+              pull.typeOfPull = 'Back';
+            } else if(data.indexOf('README') != -1 || data.indexOf('doc') != -1 || data.indexOf('txt') != -1){
+              pull.typeOfPull = 'Doc';
+            } else {
+              pull.typeOfPull = 'Other';
+            }
+            callback();
+          });
+        });
+      }, function(err) {
+        if( err ) {
+          console.log('A pr failed to process');
+          done("err", null);
+        } else {
+
+          //Now we will assign
+          for (var key in pullRequests) {
+            if (pullRequests.hasOwnProperty(key)) {
+
+              //Return the min of numberAssign integrator
+              var res = integrateursDB.reduce(function(prev, current) {
+                  if (prev.typeIntegrateur != null && prev.typeIntegrateur == pullRequests[key].typeOfPull)
+                    return prev;
+
+                  if (current.typeIntegrateur != null && current.typeIntegrateur == pullRequests[key].typeOfPull)
+                    return current;
+
+                  return (prev.numberAssign < current.numberAssign) ? prev : current;
+              });
+
+              pullRequests[key].assignAdvice = res.login;
+              pullRequests[key].numberAssign += 1;
+            }
+          }
+
+          done(null, pullRequests);;
+        }
+      });
+
+    });
+
+    if(results.error != null){
+      if(results.error.message.search("Not Found") != -1)
+        throw new Meteor.Error(400, "User not found");
+      else
+        throw new Meteor.Error(400, results.error.message);
+    }
+
+    return results.result;
+
+
+
 
   }//END : autoAssign
 

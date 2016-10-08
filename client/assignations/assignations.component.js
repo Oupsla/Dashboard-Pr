@@ -14,6 +14,7 @@ angular.module('dashboardPr')
       //######################## Vars #############################
 
       this.reposelected = Session.get("reposelected");
+      this.userselected = Session.get("userselected");
       this.pullRqsToAssign = new ReactiveArray();
       this.pullRqsAssigned = new ReactiveArray();
 
@@ -29,19 +30,20 @@ angular.module('dashboardPr')
       //######################## METHODS #############################
 
       this.getPullRequests = () => {
-        var githubUsername = Meteor.user().services.github.username;
 
-        if(!githubUsername || !this.reposelected)
+        if(!this.reposelected || !this.userselected){
+          bertError("Error of selection of repository");
           return;
+        }
 
-        this.integrateurs = GithubIntegrateur.findOne({repo:githubUsername+"/"+this.reposelected});
+        this.integrateurs = GithubIntegrateur.findOne({repo:this.userselected+"/"+this.reposelected});        
         if(this.integrateurs != null)
            this.integrateurs = this.integrateurs.integrateurs;
 
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
-        Meteor.call('getPRsFromProject', githubUsername, this.reposelected,  accessToken,
+        Meteor.call('getPRsFromProject', this.userselected, this.reposelected,  accessToken,
           function (error, result) {
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
@@ -60,6 +62,8 @@ angular.module('dashboardPr')
                   if (result[i].assignees.length > 0){
                     this.pullRqsAssigned.push(result[i]);
                   }
+
+                  console.log(this.pullRqsToAssign);
                 }
 
               }
@@ -69,15 +73,15 @@ angular.module('dashboardPr')
 
       this.removeAssignement = (login, issueNumber) => {
 
-        var githubUsername = Meteor.user().services.github.username;
-        if(!githubUsername || !this.reposelected)
+        if(!this.reposelected || !this.userselected){
+          bertError("Error of selection of repository");
           return;
+        }
+
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
-
-
-        Meteor.call('removeAssignementOfPR', githubUsername, this.reposelected, issueNumber, login, accessToken,
+        Meteor.call('removeAssignementOfPR', this.userselected, this.reposelected, issueNumber, login, accessToken,
           function (error, result) {
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
@@ -91,15 +95,15 @@ angular.module('dashboardPr')
 
       this.addAssignement = (login, issueNumber, pullRq) => {
 
-        var githubUsername = Meteor.user().services.github.username;
-        if(!githubUsername || !this.reposelected)
+        if(!this.reposelected || !this.userselected){
+          bertError("Error of selection of repository");
           return;
+        }
+
         var accessToken = Meteor.user().services.github.accessToken;
         cfpLoadingBar.start();
 
-
-
-        Meteor.call('addAssigneesToPR', githubUsername, this.reposelected, issueNumber, login, accessToken,
+        Meteor.call('addAssigneesToPR', this.userselected, this.reposelected, issueNumber, login, accessToken,
           function (error, result) {
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
@@ -141,20 +145,25 @@ angular.module('dashboardPr')
 
       this.autoAssign = () => {
 
-        var githubUsername = Meteor.user().services.github.username;
-
-        if(!githubUsername || !this.reposelected)
+        if(!this.reposelected || !this.userselected){
+          bertError("Error of selection of repository");
           return;
+        }
 
-        Meteor.call('getPRsFromProject', githubUsername, this.reposelected,
+        Meteor.call('autoAssign', this.userselected, this.reposelected, this.pullRqsToAssign,
           function (error, result) {
             if(error){
               bertError("Auto Assign failed. Details : " + error);
             } else {
+              for (var key in result) {
+                if (result.hasOwnProperty(key)) {
+                  console.log(result[key].assignAdvice);
+                }
+              }
               bertInfo("Auto Assign successful");
             }
           }.bind(this));
-      }
+      };
 
       Tracker.autorun(function() {
         if (Meteor.user() != undefined && Meteor.user().services != undefined && $location.path() == "/assignations" ) {

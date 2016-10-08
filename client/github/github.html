@@ -3,34 +3,30 @@
 <md-list role="list" ng-hide="github.showRepos" ng-required="true">
   <h3 class="ng-binding">Select your repository : </h3>
 
-  <md-input-container>
-    <label for="input_170">Seach</label>
-    <input aria-invalid="false" id="search_input" class="ng-pristine ng-valid md-input ng-touched" ng-model="github.searchRepo" ng-change="github.currentPageRepo = 0">
-  </md-input-container>
+  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,50]}">
+    <mdt-header-row>
+      <mdt-column align-rule="left">Repository</mdt-column>
+      <mdt-column align-rule="left">Open issues</mdt-column>
+      <mdt-column align-rule="right">Select</mdt-column>
+    </mdt-header-row>
 
-  <md-radio-group ng-model="github.reposelected">
-    <md-list-item
-      ng-repeat="repo in github.reposUser
-      | startFrom:github.currentPageRepo*github.pageSize
-      | limitTo:github.pageSize">
+    <mdt-row ng-repeat="repo in github.reposUser">
 
-      <md-radio-button value="{{ repo.name }}" name="repoRadio">
-        {{ repo.name }}
-      </md-radio-button>
-    </md-list-item>
-  </md-radio-group>
+      <mdt-cell html-content="true">
+         <a href="{{repo.html_url}}" target="_blank">{{ repo.name }}</a>
+      </mdt-cell>
 
-  <div ng-hide="github.numberOfPagesRepo == 0 || github.searchRepo">
-    <button class="md-icon-button md-primary md-button md-ink-ripple" ng-disabled="github.currentPageRepo == 0" ng-click="github.currentPageRepo=github.currentPageRepo-1">
-      <i class="fa fa-arrow-circle-left fa-3"></i>
-    </button>
-      {{github.currentPageRepo+1}}/{{github.numberOfPagesRepo}}
-    <button class="md-icon-button md-primary md-button md-ink-ripple" ng-disabled="github.currentPageRepo >= github.reposUser.length/10 - 1" ng-click="github.currentPageRepo=github.currentPageRepo+1">
-      <i class="fa fa-arrow-circle-right fa-3"></i>
-    </button>
-  </div>
+      <mdt-cell> {{ repo.open_issues_count }} </mdt-cell>
 
-  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.selectRepo()">Select this repo</button>
+      <mdt-cell html-content="true">
+          <md-input-container>
+              <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.selectRepo(repo.full_name)">Select this repo</button>
+          </md-input-container>
+      </mdt-cell>
+
+    </mdt-row>
+  </mdt-table>
+
   <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.getRepo(true)">Refresh</button>
 
 </md-list>
