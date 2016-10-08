@@ -159,7 +159,7 @@ Meteor.methods({
       }else{
         return true;
       }
-
+    });
   }, // END : removeAssignementOfPR
 
   addAssigneesToPR: function (user, repo, number, login, token) {
