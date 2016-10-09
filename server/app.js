@@ -27,8 +27,7 @@ Meteor.methods({
 
   getReposFromUser: function (username, token) {
 
-    if(!github)
-      initGithubApi(token);
+    initGithubApi(token);
 
     var repos = null;
 
@@ -66,8 +65,7 @@ Meteor.methods({
 
   getPRsFromProject: function (username, repo, token) {
 
-    if(!github)
-      initGithubApi(token);
+    initGithubApi(token);
 
     var pullRequests = null;
 
@@ -127,8 +125,8 @@ Meteor.methods({
 
 
   removeAssignementOfPR: function (user, repo, number, login, token) {
-    if(!github)
-      initGithubApi(token);
+
+    initGithubApi(token);
 
     var request=Meteor.npmRequire("request");
 
@@ -164,8 +162,7 @@ Meteor.methods({
 
   addAssigneesToPR: function (user, repo, number, login, token) {
 
-    if(!github)
-      initGithubApi(token);
+    initGithubApi(token);
 
     var response = Async.runSync(function(done) {
       github.issues.addAssigneesToIssue({
@@ -192,8 +189,7 @@ Meteor.methods({
 
   getIntegrateursFromRepo: function (username, repo, token) {
 
-    if(!github)
-      initGithubApi(token);
+    initGithubApi(token);
 
     var result = {
       integrateurs: null,
