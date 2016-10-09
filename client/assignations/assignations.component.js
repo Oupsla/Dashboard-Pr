@@ -17,13 +17,21 @@ angular.module('dashboardPr')
       Session.set("reposelected", localStorage.getItem("reposelectedlocal"));
 
       this.reposelected = Session.get("reposelected");
-
-
-
-
       this.userselected = Session.get("userselected");
       this.pullRqsToAssign = new ReactiveArray();
       this.pullRqsAssigned = new ReactiveArray();
+
+      this.query1 = {
+        order: 'title',
+        limit: 5,
+        page: 1
+      };
+
+      this.query2 = {
+        order: 'title',
+        limit: 5,
+        page: 1
+      };
 
       this.integrateurs = null;
 
@@ -63,14 +71,10 @@ angular.module('dashboardPr')
 
                   if (result[i].assignees.length == 0){
                     this.pullRqsToAssign.push(result[i]);
-                    console.log("qdmqsdmsqkd");
-                    console.log(result[i]);
                   }
                   if (result[i].assignees.length > 0){
                     this.pullRqsAssigned.push(result[i]);
                   }
-
-                  console.log(this.pullRqsToAssign);
                 }
 
               }

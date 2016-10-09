@@ -152,7 +152,6 @@ Meteor.methods({
 
     request.del(options,function(error,response,body){
       if(error){
-        console.log(error);
         throw new Meteor.Error(400, error);
       }else{
         return true;
@@ -336,8 +335,7 @@ Meteor.methods({
         });
       }, function(err) {
         if( err ) {
-          console.log('A pr failed to process');
-          done("err", null);
+          done("A pr failed to process", null);
         } else {
 
           //Now we will assign

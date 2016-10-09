@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "angular": "^1.5.8",
     "async": "^2.0.1",
+    "follow-redirects": "^0.2.0",
     "github": "^3.1.1",
-    "request": "~2.75.0",
-    "follow-redirects": "^0.2.0"
+    "request": "~2.75.0"
   }
 }

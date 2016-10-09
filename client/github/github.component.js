@@ -20,8 +20,12 @@ angular.module('dashboardPr')
 
       //######################## Vars #############################
       this.repos = new ReactiveArray();
-      this.currentPageRepo = 0;
-      this.pageSize = 10;
+
+      this.query = {
+        order: '-open_issues_count',
+        limit: 5,
+        page: 1
+      };
 
       this.helpers({
         showRepos: () => {
@@ -29,9 +33,6 @@ angular.module('dashboardPr')
         },
         reposUser: () => {
           return this.repos.list();
-        },
-        numberOfPagesRepo: () => {
-          return Math.ceil(this.repos.list().length/this.pageSize);
         }
       });
 
@@ -46,7 +47,6 @@ angular.module('dashboardPr')
 
         var accessToken = Meteor.user().services.github.accessToken;
 
-        this.currentPageRepo = 0;
         cfpLoadingBar.start();
 
         //Try to get repos from cache, not from cache if refresh

@@ -2,13 +2,20 @@ angular.module('dashboardPr', [
   'angular-meteor',
   'ui.router',
   'ngMaterial',
-  'mdDataTable',
   'ngFileUpload',
   'ui.bootstrap',
   'ngAnimate',
   'accounts.ui',
-  'angular-loading-bar'
+  'angular-loading-bar',
+  'md.data.table'
 ])
+.config(['$mdThemingProvider', function ($mdThemingProvider) {
+    'use strict';
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('blue')
+      .accentPalette('pink');
+}])
 .service('sharedProperties', function () {
     var changement = null;
 

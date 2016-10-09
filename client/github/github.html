@@ -3,30 +3,33 @@
 <md-list role="list" ng-hide="github.showRepos" ng-required="true">
   <h3 class="ng-binding">Select your repository : </h3>
 
-  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,50]}">
-    <mdt-header-row>
-      <mdt-column align-rule="left">Repository</mdt-column>
-      <mdt-column align-rule="left">Open issues</mdt-column>
-      <mdt-column align-rule="right">Select</mdt-column>
-    </mdt-header-row>
+  <md-card>
+    <md-table-container>
+      <table md-table md-progress="promise">
+        <thead md-head md-order="github.query.order">
+          <tr md-row>
+            <th md-column md-order-by="name">Repository</th>
+            <th md-column md-order-by="open_issues_count" md-numeric>Open issues</th>
+            <th md-column>Select</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row ng-repeat="repo in github.reposUser | orderBy: github.query.order | limitTo: github.query.limit : (github.query.page -1) * github.query.limit">
+            <td md-cell><a href="{{repo.html_url}}" target="_blank">{{ repo.name }}</a></td>
+            <td md-cell>{{ repo.open_issues_count }}</td>
+            <td md-cell>
+              <md-input-container>
+                  <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.selectRepo(repo.full_name)">Select this repo</button>
+              </md-input-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
 
-    <mdt-row ng-repeat="repo in github.reposUser">
-
-      <mdt-cell html-content="true">
-         <a href="{{repo.html_url}}" target="_blank">{{ repo.name }}</a>
-      </mdt-cell>
-
-      <mdt-cell> {{ repo.open_issues_count }} </mdt-cell>
-
-      <mdt-cell html-content="true">
-          <md-input-container>
-              <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.selectRepo(repo.full_name)">Select this repo</button>
-          </md-input-container>
-      </mdt-cell>
-
-    </mdt-row>
-  </mdt-table>
+    <!-- md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination" -->
+    <md-table-pagination md-limit="github.query.limit" md-page="github.query.page" md-total="{{github.reposUser.length}}" md-page-select="false" ></md-table-pagination>
+  </md-card>
 
   <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="github.getRepo(true)">Refresh</button>
-
 </md-list>

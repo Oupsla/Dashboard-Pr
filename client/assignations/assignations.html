@@ -2,56 +2,70 @@
 
 
 <div ng-show="assignations.showPage">
+
   <h3 class="ng-binding" ng-show="assignations.showPage" >{{ assignations.reposelected }}</h3>
   <h5>Pull Requests to assign : </h5>
   <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.autoAssign()">Auto Assign</button>
-  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,100]}">
-    <mdt-header-row>
-      <mdt-column align-rule="left">Nom</mdt-column>
-      <mdt-column align-rule="left">Assignation</mdt-column>
-      <mdt-column align-rule="left">Assign</mdt-column>
-    </mdt-header-row>
-    <mdt-row ng-repeat="pullRq in assignations.pullRqsToAssign">
+  <md-card>
+    <md-table-container>
+      <table md-table md-progress="promise">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>Name</th>
+            <th md-column>Assignation</th>
+            <th md-column>Assign</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row ng-repeat="pullRq in assignations.pullRqsToAssign
+              | orderBy: assignations.query1.order
+              | limitTo: assignations.query1.limit : (assignations.query1.page -1) * assignations.query1.limit">
+            <td md-cell><a ng-href="{{pullRq.html_url}}" target="_blank">{{pullRq.title}}</a></td>
+            <td md-cell>
+              <md-select ng-model="pullRq.assigned" placeholder="Integrator">
+                <md-option ng-value="opt" ng-repeat="opt in assignations.integrateurs">
+                  {{ opt.login }} - {{ opt.typeIntegrateur }} - Currently : ({{opt.numberAssign}})
+                </md-option>
+              </md-select>
+            </td>
+            <td md-cell>
+                <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.addAssignement(pullRq.assigned.login, pullRq.number, pullRq)">Assign</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <md-table-pagination md-limit="assignations.query1.limit" md-page="assignations.query1.page" md-total="{{assignations.pullRqsToAssign.length}}" md-page-select="false"></md-table-pagination>
+  </md-card>
 
-
-      <mdt-cell html-content="true"><a ng-href="{{pullRq.html_url}}" target="_blank">{{pullRq.title}}</a></mdt-cell>
-      <mdt-cell html-content="true">
-          <md-select ng-model="pullRq.assigned" placeholder="Integrator">
-            <md-option ng-value="opt" ng-repeat="opt in assignations.integrateurs">
-              {{ opt.login }} - {{ opt.typeIntegrateur }} - Currently : ({{opt.numberAssign}})
-            </md-option>
-          </md-select>
-      </mdt-cell>
-
-
-      <mdt-cell html-content="true">
-          <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.addAssignement(pullRq.assigned.login, pullRq.number, pullRq)">Assign</button>
-      </mdt-cell>
-
-    </mdt-row>
-  </mdt-table>
-</div>
-
-<div ng-show="assignations.showPage">
-  <h5>Pull Requests already assigned:</h5>
-  <mdt-table paginated-rows="{isEnabled: true, rowsPerPageValues: [5,10,20,100]}">
-    <mdt-header-row>
-      <mdt-column align-rule="left">Nom</mdt-column>
-      <mdt-column align-rule="left">Assignés</mdt-column>
-    </mdt-header-row>
-    <mdt-row ng-repeat="pullRq in assignations.pullRqsAssigned">
-
-
-      <mdt-cell html-content="true"><a ng-href="{{pullRq.html_url}}" target="_blank">{{pullRq.title}}</a></mdt-cell>
-      <mdt-cell html-content="true">
-
-          <ul class="list-group">
-            <li class="list-group-item" ng-repeat="assignee in pullRq.assignees">
-              <a ng-href="{{assignee.html_url}}" target="_blank">{{assignee.login}}</a>
-              <a><button class="badge" type="button" ng-click="assignations.removeAssignement(assignee.login, pullRq.number)">x</button></a>
-            </li>
-          </ul>
-      </mdt-cell>
-    </mdt-row>
-  </mdt-table>
+  <h5>Pull Requests already assigned : </h5>
+  <md-card>
+    <md-table-container>
+      <table md-table md-progress="promise">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>Name</th>
+            <th md-column>Assigned</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row ng-repeat="pullRq in assignations.pullRqsAssigned
+              | orderBy: assignations.query2.order
+              | limitTo: assignations.query2.limit : (assignations.query2.page -1) * assignations.query2.limit">
+            <td md-cell><a ng-href="{{pullRq.html_url}}" target="_blank">{{pullRq.title}}</a></td>
+            <td md-cell>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="assignee in pullRq.assignees">
+                  <a ng-href="{{assignee.html_url}}" target="_blank">{{assignee.login}}</a>
+                  <a><button class="badge" type="button" ng-click="assignations.removeAssignement(assignee.login, pullRq.number)">x</button></a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <md-table-pagination md-limit="assignations.query2.limit" md-page="assignations.query2.page" md-total="{{assignations.pullRqsAssigned.length}}" md-page-select="false"></md-table-pagination>
+  </md-card>
+  
 </div>
