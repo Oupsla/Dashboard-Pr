@@ -88,8 +88,19 @@ angular.module('dashboardPr')
           bertError("Please select a repo");
         } else {
           var values = reponame.split('/');
-          Session.set("userselected",values[0]);
-          Session.set("reposelected",values[1]);
+
+          localStorage.setItem("userselectedlocal", values[0]);
+          Session.set("userselected", localStorage.getItem("userselectedlocal"));
+          localStorage.setItem("reposelectedlocal", values[1]);
+          Session.set("reposelected", localStorage.getItem("reposelectedlocal"));
+
+
+          //Session.set("userselected",values[0]);
+          //Session.set("reposelected",values[1]);
+
+
+
+
           $location.path("/integrateurs");
         }
       }//END : selectRepo

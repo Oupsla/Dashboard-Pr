@@ -13,7 +13,14 @@ angular.module('dashboardPr')
 
       //######################## Vars #############################
 
+      Session.set("userselected", localStorage.getItem("userselectedlocal"));
+      Session.set("reposelected", localStorage.getItem("reposelectedlocal"));
+
       this.reposelected = Session.get("reposelected");
+
+
+
+
       this.userselected = Session.get("userselected");
       this.pullRqsToAssign = new ReactiveArray();
       this.pullRqsAssigned = new ReactiveArray();
@@ -36,7 +43,7 @@ angular.module('dashboardPr')
           return;
         }
 
-        this.integrateurs = GithubIntegrateur.findOne({repo:this.userselected+"/"+this.reposelected});        
+        this.integrateurs = GithubIntegrateur.findOne({repo:this.userselected+"/"+this.reposelected});
         if(this.integrateurs != null)
            this.integrateurs = this.integrateurs.integrateurs;
 
@@ -111,34 +118,35 @@ angular.module('dashboardPr')
                 bertError("Error updating your team. Details : " + error);
               } else {
                 bertInfo("Successfully added");
-                console.log("wsqdsqd");
-                console.log(pullRq.id)
-                for (var i = 0; i < this.pullRqsToAssign.length; i++) {
-                    if (this.pullRqsToAssign[i].id == pullRq.id){
-                      console.log("coooooooolll");
-                      console.log(this.pullRqsToAssign.length);
-                      this.pullRqsToAssign.splice(i, 1);
-                      console.log(this.pullRqsToAssign.length);
-
-                      var temp = new ReactiveArray();
-
-                      for (var j = 0; j < this.pullRqsToAssign.length; j++) {
-                        temp.push(this.pullRqsToAssign[j]);
-                      }
-
-                      //Remove old
-                      this.pullRqsToAssign.clear();
-                      console.log(temp.length);
-                      console.log(this.pullRqsToAssign.length);
-
-                      for (var j = 0; j < temp.length; j++) {
-                        this.pullRqsToAssign.push(temp[j]);
-                      }
-
-                      console.log(this.pullRqsToAssign.length)
-
-                    }
-                }
+                document.location.reload(true);
+                // console.log("wsqdsqd");
+                // console.log(pullRq.id)
+                // for (var i = 0; i < this.pullRqsToAssign.length; i++) {
+                //     if (this.pullRqsToAssign[i].id == pullRq.id){
+                //       console.log("coooooooolll");
+                //       console.log(this.pullRqsToAssign.length);
+                //       this.pullRqsToAssign.splice(i, 1);
+                //       console.log(this.pullRqsToAssign.length);
+                //
+                //       var temp = new ReactiveArray();
+                //
+                //       for (var j = 0; j < this.pullRqsToAssign.length; j++) {
+                //         temp.push(this.pullRqsToAssign[j]);
+                //       }
+                //
+                //       //Remove old
+                //       this.pullRqsToAssign.clear();
+                //       console.log(temp.length);
+                //       console.log(this.pullRqsToAssign.length);
+                //
+                //       for (var j = 0; j < temp.length; j++) {
+                //         this.pullRqsToAssign.push(temp[j]);
+                //       }
+                //
+                //       console.log(this.pullRqsToAssign.length)
+                //
+                //     }
+                // }
               }
         }.bind(this));
       };
