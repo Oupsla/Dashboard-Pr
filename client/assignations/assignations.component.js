@@ -96,6 +96,7 @@ angular.module('dashboardPr')
                 bertError("Error updating your team. Details : " + error);
               } else {
                 bertInfo("Successfully removed");
+                document.location.reload(true);
               }
         }.bind(this));
       };
