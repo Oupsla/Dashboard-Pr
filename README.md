@@ -42,19 +42,27 @@ Le travail technique n'est pas un but en lui-même, c'est plutot le résultat et
 ### Algorithme
 TODO
 ### Architecture (langage, librairies utilisées, modules et classes)
-Client : AngularJs
 
-Serveur : NodeJs
-
-Framework : Meteor
-
-# ![Architecture](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/System.png)
+![Architecture](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/System.png)
 
 Librairies :
 - Async https://github.com/caolan/async
 - Node-github https://github.com/mikedeboer/node-github
+- request https://github.com/request/request
+- follow-redirects https://github.com/olalonde/follow-redirects
 
-TODO (modules et classes)
+![Découpage](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/FileSystem.png)
+
+Modules et classes :
+- model : collections Meteor (stockées en DB)
+- public : dossier servi publiquement au client Angular
+- packages et node_modules : librairies node
+- client : découpe en pages, chaque page à son propre controlleur et sa propre page qui sera injecté dans index.html
+    - github : sélection d'un repo à gérer
+    - intégrateurs : gestion des intégrateurs du répo selectionné
+    - assignations : gestion des pull requets du répo selectionné (assignation et désassignation)
+- server
+    - app.js : partie serveur s'occupant entre autre de contacter l'api Github
 
 ### Implémentation
 TODO  (code/patterns/idioms élégants ou efficaces, taille)
