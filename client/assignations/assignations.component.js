@@ -82,7 +82,7 @@ angular.module('dashboardPr')
 
       };
 
-      this.removeAssignement = (login, issueNumber) => {
+      this.removeAssignement = (login, issueNumber, pullRq, assigneeremoved) => {
 
         if(!this.reposelected || !this.userselected){
           bertError("Error of selection of repository");
@@ -100,12 +100,34 @@ angular.module('dashboardPr')
                 bertError("Error updating your team. Details : " + error);
               } else {
                 bertInfo("Successfully removed");
+                // for (var i = 0; i < this.pullRqsAssigned.length; i++) {
+                //     if (this.pullRqsAssigned[i].id == pullRq.id){
+                //       console.log("coooooooolll");
+                //       console.log(this.pullRqsAssigned.length);
+                //
+                //       if (this.pullRqsAssigned.assignees == null){
+                //         this.pullRqsAssigned.splice(i, 1);
+                //         this.pullRqsToAssign.push(pullRq);
+                //         return;
+                //       }
+                //       for (var j=0; j < this.pullRqsAssigned.assignees.length; j++){
+                //           if (this.pullRqsAssigned.assignees[j].login == assigneeremoved.login){
+                //             this.pullRqsAssigned.assignees.splice(j, 1);
+                //           }
+                //       }
+                //
+                //       if (this.pullRqsAssigned.assignees.length <= 0){
+                //         this.pullRqsAssigned.splice(i, 1);
+                //         this.pullRqsToAssign.push(pullRq);
+                //       }
+                //     }
+                // }
                 document.location.reload(true);
               }
         }.bind(this));
       };
 
-      this.addAssignement = (login, issueNumber, pullRq) => {
+      this.addAssignement = (login, issueNumber, pullRq, assigned) => {
 
         if(!this.reposelected || !this.userselected){
           bertError("Error of selection of repository");
@@ -123,35 +145,18 @@ angular.module('dashboardPr')
                 bertError("Error updating your team. Details : " + error);
               } else {
                 bertInfo("Successfully added");
-                document.location.reload(true);
-                // console.log("wsqdsqd");
-                // console.log(pullRq.id)
-                // for (var i = 0; i < this.pullRqsToAssign.length; i++) {
-                //     if (this.pullRqsToAssign[i].id == pullRq.id){
-                //       console.log("coooooooolll");
-                //       console.log(this.pullRqsToAssign.length);
-                //       this.pullRqsToAssign.splice(i, 1);
-                //       console.log(this.pullRqsToAssign.length);
-                //
-                //       var temp = new ReactiveArray();
-                //
-                //       for (var j = 0; j < this.pullRqsToAssign.length; j++) {
-                //         temp.push(this.pullRqsToAssign[j]);
-                //       }
-                //
-                //       //Remove old
-                //       this.pullRqsToAssign.clear();
-                //       console.log(temp.length);
-                //       console.log(this.pullRqsToAssign.length);
-                //
-                //       for (var j = 0; j < temp.length; j++) {
-                //         this.pullRqsToAssign.push(temp[j]);
-                //       }
-                //
-                //       console.log(this.pullRqsToAssign.length)
-                //
-                //     }
-                // }
+                console.log("wsqdsqd");
+                console.log(pullRq)
+                for (var i = 0; i < this.pullRqsToAssign.length; i++) {
+                    if (this.pullRqsToAssign[i].id == pullRq.id){
+                      console.log("coooooooolll");
+                      console.log(this.pullRqsToAssign.length);
+                      this.pullRqsToAssign.splice(i, 1);
+                      console.log(this.pullRqsToAssign.length);
+                      this.pullRqsAssigned.push(pullRq);
+                      pullRq.assignees.push(assigned);
+                    }
+                }
               }
         }.bind(this));
       };

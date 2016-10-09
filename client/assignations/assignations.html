@@ -30,7 +30,7 @@
               </md-select>
             </td>
             <td md-cell>
-                <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.addAssignement(pullRq.assigned.login, pullRq.number, pullRq)">Assign</button>
+                <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.addAssignement(pullRq.assigned.login, pullRq.number, pullRq, pullRq.assigned)">Assign</button>
             </td>
           </tr>
         </tbody>
@@ -58,7 +58,7 @@
               <ul class="list-group">
                 <li class="list-group-item" ng-repeat="assignee in pullRq.assignees">
                   <a ng-href="{{assignee.html_url}}" target="_blank">{{assignee.login}}</a>
-                  <a><button class="badge" type="button" ng-click="assignations.removeAssignement(assignee.login, pullRq.number)">x</button></a>
+                  <a><button class="badge" type="button" ng-click="assignations.removeAssignement(assignee.login, pullRq.number, pullRq, assignee)">x</button></a>
                 </li>
               </ul>
             </td>

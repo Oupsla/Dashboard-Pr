@@ -142,7 +142,7 @@ Meteor.methods({
 
     var options = {
       //url: 'https://api.github.com/repos/" +user+ "/" + repo + "/issues/" + number + "/?assignees%3D%5B%22Oupsla%22%5D%26access_token%3D' + token,
-      url: "https://api.github.com/repos/denishamann/twistedmagic/issues/3/assignees?access_token=" + token,
+      url: "https://api.github.com/repos/" + user + "/" + repo + "/issues/" + number + "/assignees?access_token=" + token,
       method: "DEL",
       headers: {
         'User-Agent': 'DashboardPr-App'
