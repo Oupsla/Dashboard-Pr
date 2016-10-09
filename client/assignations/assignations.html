@@ -6,6 +6,7 @@
   <h3 class="ng-binding" ng-show="assignations.showPage" >{{ assignations.reposelected }}</h3>
   <h5>Pull Requests to assign : </h5>
   <button class="md-raised md-primary md-button md-ink-ripple" type="button" ng-click="assignations.autoAssign()">Auto Assign</button>
+  <p>"Auto Assign" will preselect people in relation with the type of pull request</p>
   <md-card>
     <md-table-container>
       <table md-table md-progress="promise">
@@ -23,7 +24,7 @@
             <td md-cell><a ng-href="{{pullRq.html_url}}" target="_blank">{{pullRq.title}}</a></td>
             <td md-cell>
               <md-select ng-model="pullRq.assigned" placeholder="Integrator">
-                <md-option ng-value="opt" ng-repeat="opt in assignations.integrateurs">
+                <md-option ng-value="opt.login" ng-repeat="opt in assignations.integrateurs">
                   {{ opt.login }} - {{ opt.typeIntegrateur }} - Currently : ({{opt.numberAssign}})
                 </md-option>
               </md-select>
@@ -67,5 +68,5 @@
     </md-table-container>
     <md-table-pagination md-limit="assignations.query2.limit" md-page="assignations.query2.page" md-total="{{assignations.pullRqsAssigned.length}}" md-page-select="false"></md-table-pagination>
   </md-card>
-  
+
 </div>

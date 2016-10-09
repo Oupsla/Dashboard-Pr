@@ -168,11 +168,24 @@ angular.module('dashboardPr')
             if(error){
               bertError("Auto Assign failed. Details : " + error);
             } else {
+              var array = this.pullRqsToAssign.array();
+
               for (var key in result) {
                 if (result.hasOwnProperty(key)) {
-                  console.log(result[key].assignAdvice);
+                  for (var key2 in array) {
+                    if (array.hasOwnProperty(key2)) {
+                      if(array[key2].id == result[key].id){
+                        //Signal to angular that the deep var have changed with apply
+                        $scope.$apply(function(){
+                          array[key2].assigned = result[key].assignAdvice;
+                        }.bind(this));
+                        break;
+                      }
+                    }
+                  }
                 }
               }
+
               bertInfo("Auto Assign successful");
             }
           }.bind(this));

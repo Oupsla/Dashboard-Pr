@@ -300,7 +300,7 @@ Meteor.methods({
 
   autoAssign: function(username, repo, pullRequests){
 
-    var https = Meteor.require('follow-redirects').https;
+    var https = Meteor.npmRequire('follow-redirects').https;
     var async = Meteor.npmRequire('async');
 
 
