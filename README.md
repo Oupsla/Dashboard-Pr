@@ -92,3 +92,4 @@ Au passage, nous avons résolu une erreur dans le plugin 'node-github' (lien : h
 ## Glossaire
 - Intégrateur : Personne ayant la permission de fusion sur un dépôt
 - Administrateur : Personne ayant les permissions totales sur un dépôt
+- Chef : Personne qui a le rôle de responsable du projet et des assignations
