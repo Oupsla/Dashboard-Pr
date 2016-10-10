@@ -127,7 +127,7 @@ angular.module('dashboardPr')
         }.bind(this));
       };
 
-      this.addAssignement = (login, issueNumber, pullRq, assigned) => {
+      this.addAssignement = (login, issueNumber, pullRq) => {
 
         if(!this.reposelected || !this.userselected){
           bertError("Error of selection of repository");
@@ -139,22 +139,19 @@ angular.module('dashboardPr')
 
         Meteor.call('addAssigneesToPR', this.userselected, this.reposelected, issueNumber, login, accessToken,
           function (error, result) {
+              console.log(result);
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
               if(error){
                 bertError("Error updating your team. Details : " + error);
               } else {
                 bertInfo("Successfully added");
-                console.log("wsqdsqd");
-                console.log(pullRq)
                 for (var i = 0; i < this.pullRqsToAssign.length; i++) {
                     if (this.pullRqsToAssign[i].id == pullRq.id){
-                      console.log("coooooooolll");
-                      console.log(this.pullRqsToAssign.length);
                       this.pullRqsToAssign.splice(i, 1);
-                      console.log(this.pullRqsToAssign.length);
-                      this.pullRqsAssigned.push(pullRq);
-                      pullRq.assignees.push(assigned);
+                      this.pullRqsAssigned.push(result);
+                      //pullRq.assignees = result.assignees;
+  
                     }
                 }
               }

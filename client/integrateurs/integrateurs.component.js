@@ -14,6 +14,9 @@ angular.module('dashboardPr')
       this.subscribe('githubIntegrateur').ready();
 
       //######################## Vars #############################
+      Session.set("userselected", localStorage.getItem("userselectedlocal"));
+      Session.set("reposelected", localStorage.getItem("reposelectedlocal"));
+      
       this.reposelected = Session.get("reposelected");
       this.userselected = Session.get("userselected");
       this.integrateurs = new ReactiveArray();
