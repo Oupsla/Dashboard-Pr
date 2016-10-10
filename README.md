@@ -77,10 +77,14 @@ TODO (screenshots, etc)
 TODO
 
 ## Limitation
-TODO
+
+Pour les petits projets avec peu d’intégrateurs ou peu de Pull Request, l’utilisation de DashboardPr peut être un peu « Overkill ». Son utilité est plus justifiée sur projet de plus grande envergure.
+C’est dommage que GitHub n’ait pas mieux pensé son système d’assignation, car si c’était mieux fait, l’existence de DashboardPr, n’aurait pas lieu d’être.
+
 
 ## Conclusion
-TODO
+
+Grâce à sa facilité d’utilisation et de prise en main, Dashboard-Pr permet de répondre parfaitement au problème exposé. Les tâches d’assignation que le « chef » doit effectuer est rendue plus complète, rapide et agréable à utiliser. Cela est mis en œuvre en lui permettant d’avoir une vue d’ensemble des assignations, d’accéder plus rapidement à l’information ou la modification qu’il recherche. Pour conclure, Dashboard-Pr offre une solution efficace en ce qui concerne les assignations. Il pourrait être intéressant d’imaginer intégrer certaines fonctionnalités directement dans GitHub ou dans une application de gestion de tâche de « chef » afin d’éviter de devoir passer par une application tierce uniquement pour gérer les assignations.
 
 
 Au passage, nous avons résolu une erreur dans le plugin 'node-github' (lien : https://github.com/mikedeboer/node-github/issues/431)
