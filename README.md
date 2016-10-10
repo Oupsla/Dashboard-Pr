@@ -112,28 +112,45 @@ Lancement :
 - meteor npm install
 - ROOT_URL=http://ipserveur meteor (example : ROOT_URL=http://91.121.181.105:3000 meteor)
 
+### Screenshots
+
+![Selection](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/Selection.png)
+
 ![Integrateurs](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/Integrateurs.png)
 
 ![Assignations](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/Assignations.png)
 
-![Selection](https://raw.githubusercontent.com/Oupsla/Dashboard-Pr/master/public/images/Selection.png)
-
-
 ## Evaluation
-TODO
+
+Notre projet permet au final d'obtenir une vue d'ensemble des assignations et des Pull Request pour chaque dépôt que dirige un administrateur.
+
+Il peut donc facilement les déléguer et notre système s'occupera de contacter le système d'assignation Github.
+Celui-ci s'occupe d'envoyer un email à l'intégrateur sélectionné, c'est pour cela que nous avons préféré ne pas en envoyer un autre, même avec une note supplémentaire, pour ne pas spammer la boîte email des intégrateurs.
+
+Nous avons fourni une instance de notre projet à un collègue qui gère une application Ionic.
+Mais vu le nombre faible de Pull Requests et d'intégrateurs que celui-ci possède, notre projet n'améliore pas vraiment le temps passé aux assignations car les choix sont plutôt limités.
+Il nous a quand même retourné qu'obtenir une vue d'ensemble pour savoir rapidement qui travaille sur quel Pull Request est un vrai plus.
+
+Il est évidemment que notre projet n'est réèllement intéressant que pour les administrateurs de grands projets, ceux-ci ne doivent donc pas retenir toutes les informations à propos de leurs intégrateurs, ce qui peut devenir vite compliqué si on gère plusieurs projets.
+
+Une fonctionnalité assez intéréssante est la pré-sélection des intégrateurs.
+Elle permet de faire gagner un temps considérable à l'administrateur du projet qui ne doit même plus lire les Pull Requests en détail avant de les déléguer, notre système lui suggère un intégrateur par rapport à ses préférences et sa charge de travail actuel.
+L'administrateur a évidemment le dernier mot et peut changer l'intégrateur pré-selectionné avant l'assignation.
 
 ## Limitation
 
-Pour les petits projets avec peu d’intégrateurs ou peu de Pull Request, l’utilisation de DashboardPr peut être un peu « Overkill ». Son utilité est plus justifiée sur projet de plus grande envergure.
-C’est dommage que GitHub n’ait pas mieux pensé son système d’assignation, car si c’était mieux fait, l’existence de DashboardPr, n’aurait pas lieu d’être.
+Pour les petits projets avec peu d’intégrateurs ou peu de Pull Requests, l’utilisation de DashboardPr peut être un peu « Overkill ». Son utilité est plus justifiée sur des projets de plus grande envergure.
+C’est dommage que GitHub n’ait pas mieux pensé son système d’assignation, car si il était amélioré, l’existence de DashboardPr, n’aurait pas lieu d’être.
 
 Tout n'est pas non plus possible grâce à l'api Github, il nous ait par exemple difficile de calculer le nombre de Pull Request qu'un intégrateur a accepté ou refusé.
-Cela commence à être possible grâce à une nouvelle partie de l'API sur les évènements d'un dépot, mais il faut donc pour cela les obtenir tous et puis les traiter afin d'en tirer des statistiques. On se retrouve très vite dans le domaine du big data.
+Cela commence à être possible grâce à une nouvelle partie de l'API sur les évènements d'un dépot, mais il faut pour cela les obtenir tous et puis les traiter afin d'en tirer des statistiques. On se retrouve très vite dans le domaine du big data.
+
+Notre algorithme de détection est aussi assez basique et l'on pourrait imaginer que l'utilisateur le configure par rapport au dépôt sélectionné afin de détecter plus efficacement le type des Pull Requests.
 
 
 ## Conclusion
 
-Grâce à sa facilité d’utilisation et de prise en main, Dashboard-Pr permet de répondre parfaitement au problème exposé. Les tâches d’assignation que l'administrateur doit effectuer est rendue plus complète, rapide et agréable à utiliser. Cela est mis en œuvre en lui permettant d’avoir une vue d’ensemble des assignations, d’accéder plus rapidement à l’information ou la modification qu’il recherche.
+Grâce à sa facilité d’utilisation et de prise en main, Dashboard-Pr permet de répondre au problème exposé. Les tâches d’assignation que l'administrateur doit effectuer sont rendues plus complètes, rapides et agréables à utiliser. Cela est mis en œuvre en lui permettant d’avoir une vue d’ensemble des assignations, d’accéder plus rapidement à l’information ou la modification qu’il recherche.
 
 Pour conclure, Dashboard-Pr offre une solution efficace en ce qui concerne les assignations. Il pourrait être intéressant d’imaginer intégrer certaines fonctionnalités directement dans GitHub ou dans une application de gestion de tâche d'administrateur afin d’éviter de devoir passer par une application tierce uniquement pour gérer les assignations.
 
