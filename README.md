@@ -1,6 +1,6 @@
 # Dashboard d'assignation des Pull Requests
 
-OPL - Thème 1: Pull Request Engineerin
+OPL - Thème 1: Pull Request Engineering
 
 11/10/2016
 
