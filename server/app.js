@@ -314,7 +314,7 @@ Meteor.methods({
 
       async.each(pullRequests, function(pull, callback) {
         var urlFile = pull.patch_url;
-        https.get(urlFile, function (resource) {
+        var req = https.get(urlFile, function (resource) {
           resource.setEncoding('utf8');
           resource.on('data', function (data) {
 
@@ -330,9 +330,12 @@ Meteor.methods({
             } else {
               pull.typeOfPull = 'Other';
             }
-            callback();
           });
+
+
         });
+        req.end();
+        callback();
       }, function(err) {
         if( err ) {
           done("A pr failed to process", null);
