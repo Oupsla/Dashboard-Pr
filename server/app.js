@@ -347,12 +347,19 @@ Meteor.methods({
 
               //Return the min of numberAssign integrator
               var res = integrateursDB.reduce(function(prev, current) {
+
+                  //Both integrator got same type, return the min assigned
+                  if( prev.typeIntegrateur != null && current.typeIntegrateur != null
+                    && prev.typeIntegrateur && current.typeIntegrateur)
+                    return (prev.numberAssign < current.numberAssign) ? prev : current;
+
                   if (prev.typeIntegrateur != null && prev.typeIntegrateur == pullRequests[key].typeOfPull)
                     return prev;
 
                   if (current.typeIntegrateur != null && current.typeIntegrateur == pullRequests[key].typeOfPull)
                     return current;
 
+                  //Return the min if nothing match
                   return (prev.numberAssign < current.numberAssign) ? prev : current;
               });
 
