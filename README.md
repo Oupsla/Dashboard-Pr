@@ -1,4 +1,4 @@
-# OPL - Thème 1: Pull Request Engineering
+# OPL - Thème 1: Pull Request Engineering - Dashboard d'assignation des Pull Requests
 11/10/2016
 
 Denis Hamann - Nicolas Delperdange
