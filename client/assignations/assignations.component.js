@@ -139,7 +139,6 @@ angular.module('dashboardPr')
 
         Meteor.call('addAssigneesToPR', this.userselected, this.reposelected, issueNumber, login, accessToken,
           function (error, result) {
-              console.log(result);
               cfpLoadingBar.complete();
               this.alreadyRunning = false;
               if(error){
@@ -151,7 +150,7 @@ angular.module('dashboardPr')
                       this.pullRqsToAssign.splice(i, 1);
                       this.pullRqsAssigned.push(result);
                       //pullRq.assignees = result.assignees;
-  
+
                     }
                 }
               }
@@ -165,8 +164,11 @@ angular.module('dashboardPr')
           return;
         }
 
+        cfpLoadingBar.start();
+
         Meteor.call('autoAssign', this.userselected, this.reposelected, this.pullRqsToAssign,
           function (error, result) {
+            cfpLoadingBar.complete();
             if(error){
               bertError("Auto Assign failed. Details : " + error);
             } else {

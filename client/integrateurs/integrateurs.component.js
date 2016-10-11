@@ -16,7 +16,7 @@ angular.module('dashboardPr')
       //######################## Vars #############################
       Session.set("userselected", localStorage.getItem("userselectedlocal"));
       Session.set("reposelected", localStorage.getItem("reposelectedlocal"));
-      
+
       this.reposelected = Session.get("reposelected");
       this.userselected = Session.get("userselected");
       this.integrateurs = new ReactiveArray();
@@ -67,6 +67,8 @@ angular.module('dashboardPr')
           bertError("Error of selection of repository");
           return;
         }
+
+        cfpLoadingBar.start();
 
         Meteor.call('updateIntegrateurs', this.userselected, this.reposelected, this.integrateurs,
           function (error, result) {

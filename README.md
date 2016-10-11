@@ -150,6 +150,8 @@ Cela commence à être possible grâce à une nouvelle partie de l'API sur les �
 
 Notre algorithme de détection est aussi assez basique et l'on pourrait imaginer que l'utilisateur le configure par rapport au dépôt sélectionné afin de détecter plus efficacement le type des Pull Requests.
 
+Une fonctionnalité supplémentaire serait de pouvoir assigner plusieurs personnes à une Pull Request.
+
 
 ## Conclusion
 

@@ -230,7 +230,7 @@ Meteor.methods({
 
     //Store integrators in DB
     var integrateursDB = GithubIntegrateur.findOne({repo:username+"/"+repo});
-    if(integrateursDB == null){
+    if(integrateursDB == null || integrateursDB.integrateurs == null){
       //First Time
       GithubIntegrateur.upsert({repo:username+"/"+repo}, { $set:{
         repo:username+"/"+repo,
@@ -242,7 +242,7 @@ Meteor.methods({
 
       for (var key in integrateurs) {
         if (integrateurs.hasOwnProperty(key)) {
-          for (var i=0; i<integrateursDB.length; i++) {
+          for (var i=0; i < integrateursDB.length; i++) {
             if (integrateursDB[i].login == integrateurs[key].login) {
               integrateurs[key].typeIntegrateur = integrateursDB[i].typeIntegrateur;
               integrateurs[key].note = integrateursDB[i].note;
@@ -332,10 +332,13 @@ Meteor.methods({
             }
           });
 
+          resource.on('end', () => {
+            callback();
+          });
+
 
         });
-        req.end();
-        callback();
+
       }, function(err) {
         if( err ) {
           done("A pr failed to process", null);
@@ -350,7 +353,7 @@ Meteor.methods({
 
                   //Both integrator got same type, return the min assigned
                   if( prev.typeIntegrateur != null && current.typeIntegrateur != null
-                    && prev.typeIntegrateur && current.typeIntegrateur)
+                    && prev.typeIntegrateur == current.typeIntegrateur)
                     return (prev.numberAssign < current.numberAssign) ? prev : current;
 
                   if (prev.typeIntegrateur != null && prev.typeIntegrateur == pullRequests[key].typeOfPull)
@@ -364,7 +367,7 @@ Meteor.methods({
               });
 
               pullRequests[key].assignAdvice = res.login;
-              pullRequests[key].numberAssign += 1;
+              res.numberAssign += 1;
             }
           }
 
